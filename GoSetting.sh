@@ -6,17 +6,26 @@ if [ ${flagNumber} -gt 0 ]
 then
  	flag1=$1
 	
+	## Install only if there is a flag named "install"
 	if [ ${flag1} == "install" ]
 	then
 		echo "install golang"
+		## Installing golang version 1.11.4
 		curl -O https://storage.googleapis.com/golang/go1.11.4.linux-amd64.tar.gz
 		tar -xvf go1.11.4.linux-amd64.tar.gz
 		sudo mv go /usr/local
 		mkdir $HOME/GoProjects
+
+		## Modify GOROOT or GOPATH here if you wish to change the path settings
 		echo "export GOROOT=/usr/local/go" >> ~/.profile
 		echo "export GOPATH=$HOME/GoProjects" >> ~/.profile
 		echo "export PATH=$PATH:$GOROOT/bin:$GOPATH/bin" >> ~/.profile
+		
+		## Source profile
 		source ~/.profile
+		
+		
+		## Check go version
 		echo "Go Version is :"
 		go version
 		echo "Go Installation script complete"
