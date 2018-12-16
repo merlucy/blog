@@ -11,6 +11,7 @@ func main() {
 
 	mux := router.InitRouter()
 	middle := middleware.Logger(mux)
-	log.Fatal(http.ListenAndServe(":8080", middle))
+	parser := middleware.PathParser(middle)
+	log.Fatal(http.ListenAndServe(":8080", parser))
 
 }
