@@ -21,9 +21,3 @@ then
 		go version
 	fi
 fi
-
-
-##sudo apt-get update
-##sudo apt-get upgrade
-##sudo apt-get install golang
-##go get golang.org/x/tools/cmd...
