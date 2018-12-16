@@ -26,3 +26,14 @@ fi
 ## To add command line tools for golang, type the following command
 ## go get github.org/x/tools/cmd..
 
+## Install latest version of vim
+
+## Install vim 8.0
+## sudo add-apt-repository ppa:jonathonf/vim
+## sudo apt update
+## sudo apt install vim
+
+## Plug vim-go
+
+
+
