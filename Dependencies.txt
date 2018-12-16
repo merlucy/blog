@@ -1,3 +1,6 @@
 
+//Database
+github.com/go-sql-driver/mysql
+
 //Router
 github.com/julienschmidt/httprouter
