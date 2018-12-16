@@ -11,7 +11,7 @@ then
 		echo "install golang"
 		curl -O https://storage.googleapis.com/golang/go1.11.4.linux-amd64.tar.gz
 		tar -xvf go1.11.4.linux-amd64.tar.gz
-		mv go /usr/local
+		sudo mv go /usr/local
 		mkdir $HOME/GoProjects
 		echo "export GOROOT=/usr/local/go" >> ~/.profile
 		echo "export GOPATH=$HOME/GoProjects" >> ~/.profile
@@ -19,5 +19,10 @@ then
 		source ~/.profile
 		echo "Go Version is :"
 		go version
+		echo "Go Installation script complete"
 	fi
 fi
+
+## To add command line tools for golang, type the following command
+## go get github.org/x/tools/cmd..
+
