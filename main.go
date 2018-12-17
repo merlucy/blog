@@ -1,8 +1,6 @@
 package main
 
 import (
-	"blog/middleware"
-
 	_ "github.com/go-sql-driver/mysql"
 
 	"log"
@@ -13,7 +11,7 @@ func main() {
 
 	defer server.db.Close()
 
-	middle := middleware.Logger(server.mux)
-	log.Fatal(http.ListenAndServe(":8080", middle))
+	//	middle := middleware.Logger(server.mux)
+	log.Fatal(http.ListenAndServe(":8080", server.Server()))
 
 }

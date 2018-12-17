@@ -1,6 +1,7 @@
 package main
 
 import (
+	"blog/middleware"
 	"blog/router"
 	"log"
 	"net/http"
@@ -25,4 +26,10 @@ func init() {
 	}
 
 	server.db = db
+}
+
+func (s Server) Server() http.Handler {
+
+	m := middleware.InitiateMiddleware(s.db, s.mux)
+	return m
 }
