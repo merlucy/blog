@@ -1,13 +1,31 @@
 package router
 
 import (
+	"blog/model"
 	"fmt"
+	"github.com/jinzhu/gorm"
+	"html/template"
 	"net/http"
 	"strings"
 )
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "HI", r.URL.Path[1:])
+
+	db := r.Context().Value("db")
+	//fmt.Println(db)
+	post := model.Post{}
+	result := db.(*gorm.DB).Find(&post)
+
+	fmt.Printf("Result is :%vi\n", post)
+	fmt.Printf("HEX: %v\n", result)
+	t, err := template.ParseFiles("header.html")
+	if err != nil {
+		fmt.Println("Template parse fail")
+	}
+	var Title string
+	Title = "Brian"
+	t.Execute(w, Title)
+	//fmt.Fprintf(w, "HI", r.URL.Path[1:])
 }
 
 func BlogListHandler(w http.ResponseWriter, r *http.Request) {
