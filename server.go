@@ -2,8 +2,8 @@ package main
 
 import (
 	"blog/middleware"
+	"blog/model"
 	"blog/router"
-	"log"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -20,12 +20,7 @@ var server Server
 func init() {
 	server.mux = router.InitRouter()
 
-	db, err := gorm.Open("mysql", "root:Gostanford1@/test?charset=utf8&parseTime=True&loc=Local")
-	if err != nil {
-		log.Fatal()
-	}
-
-	server.db = db
+	server.db = model.DB
 }
 
 func (s Server) Server() http.Handler {
