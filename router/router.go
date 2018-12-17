@@ -25,5 +25,9 @@ func InitRouter() *http.ServeMux {
 	for rt, h := range Routes {
 		m.Handle(rt.Address, h)
 	}
+
+	fs := http.FileServer(http.Dir("templates"))
+	m.Handle("/templates/", http.StripPrefix("/templates/", fs))
+
 	return m
 }

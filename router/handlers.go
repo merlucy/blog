@@ -9,23 +9,23 @@ import (
 	"strings"
 )
 
+type PostData struct {
+	Posts []model.Post
+}
+
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := r.Context().Value("db")
-	//fmt.Println(db)
-	post := model.Post{}
-	result := db.(*gorm.DB).Find(&post)
+	post := []model.Post{}
+	db.(*gorm.DB).Find(&post)
+	fmt.Println(post[0].Title)
 
-	fmt.Printf("Result is :%vi\n", post)
-	fmt.Printf("HEX: %v\n", result)
-	t, err := template.ParseFiles("header.html")
+	t, err := template.ParseFiles("templates/header.html")
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
-	var Title string
-	Title = "Brian"
-	t.Execute(w, Title)
-	//fmt.Fprintf(w, "HI", r.URL.Path[1:])
+	Data := PostData{Posts: post}
+	t.Execute(w, Data)
 }
 
 func BlogListHandler(w http.ResponseWriter, r *http.Request) {
