@@ -44,5 +44,6 @@ fi
 
 ## Plug vim-go
 
+## sudo apt-get install mysql-client-5.7 mysql-server-5.7
 
-
+## go get github.com/jinzhu/gorm
