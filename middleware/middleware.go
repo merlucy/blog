@@ -34,7 +34,6 @@ func PathParser(next http.Handler) http.Handler {
 					//Thus, we should either keep the pointer value if we want to play with it,
 					//or we should use the result directly in the next function call to next.ServeHTTp
 					r2 := r.WithContext(ctx)
-					fmt.Println(r2.URL.Path)
 
 					//Need to check if MUtex should be used
 
