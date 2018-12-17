@@ -15,8 +15,9 @@ var Routes = map[Route]http.HandlerFunc{
 	Route{"BlogPage", "/blog/"}:         BlogPageHandler,
 	Route{"ProjectList", "/projects"}:   ProjectListHandler,
 	Route{"ProjectPage", "/projects/"}:  ProjectPageHandler,
-	Route{"VisitingNotes", "/visiting"}: VisitingNotesHandler,
+	Route{"VisitingNotes", "/visiting"}: NotesHandler,
 	Route{"Portfolio", "/Portfolio"}:    PortfolioHandler,
+	Route{"Profile", "/Profile"}:        ProfileHandler,
 }
 
 func InitRouter() *http.ServeMux {

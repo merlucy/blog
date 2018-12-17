@@ -10,6 +10,13 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+const (
+	index       = "templates/header.html"
+	postList    = "templates/header.html"
+	projectList = "templates/projectList.html"
+	noteList    = "templates/vnoteList.html"
+)
+
 type PostData struct {
 	Posts []Post
 }
@@ -48,7 +55,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	post := []model.Post{}
 	db.Find(&post)
 
-	t, err := template.ParseFiles("templates/header.html")
+	t, err := template.ParseFiles(index)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -71,7 +78,7 @@ func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 	post := []model.Post{}
 	db.Find(&post)
 
-	t, err := template.ParseFiles("templates/header.html")
+	t, err := template.ParseFiles(postList)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -108,7 +115,7 @@ func ProjectListHandler(w http.ResponseWriter, r *http.Request) {
 	project := []model.Project{}
 	db.Find(&project)
 
-	t, err := template.ParseFiles("templates/projectList.html")
+	t, err := template.ParseFiles(projectList)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -141,24 +148,24 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func VisitingNotesHandler(w http.ResponseWriter, r *http.Request) {
+func NotesHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := Db(r)
 	note := []model.Note{}
 	db.Find(&note)
 
-	t, err := template.ParseFiles("templates/header.html")
+	t, err := template.ParseFiles(noteList)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
 
 	var nd NoteData
-	var n Note
+	var ndd Note
 
 	for _, n := range note {
 
-		n = NoteConvert(&note)
-		nd.Notes = append(nd.Notes, n)
+		ndd = NoteConvert(&n)
+		nd.Notes = append(nd.Notes, ndd)
 	}
 
 	t.Execute(w, nd)
@@ -167,6 +174,10 @@ func VisitingNotesHandler(w http.ResponseWriter, r *http.Request) {
 
 func PortfolioHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "This is the index page", r.URL.Path[1:])
+}
+
+func ProfileHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "This is my profile", r.URL.Path[1:])
 }
 
 func Id(url string) (string, int) {
@@ -204,6 +215,16 @@ func ProjectConvert(project *model.Project) (p Project) {
 	}
 
 	return p
+}
+
+func NoteConvert(note *model.Note) (n Note) {
+
+	n = Note{
+		Body:      note.Body,
+		ID:        note.ID,
+		CreatedAt: note.CreatedAt.Format("2006-01-02 15:04:05 MST"),
+	}
+	return n
 }
 
 func ParamSame(subject, compare string) bool {
