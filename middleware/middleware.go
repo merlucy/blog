@@ -3,8 +3,10 @@ package middleware
 import (
 	"context"
 	"fmt"
-	"github.com/jinzhu/gorm"
 	"net/http"
+	"path"
+
+	"github.com/jinzhu/gorm"
 )
 
 type Middleware func(http.Handler) http.Handler
@@ -21,7 +23,8 @@ func Middlewares(db *gorm.DB) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			ctx := context.WithValue(r.Context(), "db", DBSession(db))
-			rn := r.WithContext(ctx)
+			rn := Clean(r)
+			rn = r.WithContext(ctx)
 			next.ServeHTTP(w, rn)
 		})
 	}
@@ -40,4 +43,11 @@ func Logger(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 
+}
+
+func Clean(r *http.Request) (rn *http.Request) {
+	path := path.Clean(r.URL.Path)
+	r.URL.Path = path
+	rn = r
+	return rn
 }
