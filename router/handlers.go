@@ -52,6 +52,7 @@ type Note struct {
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := Db(r)
+	defer db.Commit()
 	post := []model.Post{}
 	db.Find(&post)
 
@@ -75,6 +76,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := Db(r)
+	defer db.Commit()
 	post := []model.Post{}
 	db.Find(&post)
 
@@ -100,6 +102,7 @@ func BlogPageHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := Id(r.URL.Path)
 	post := model.Post{}
 	db := Db(r)
+	defer db.Commit()
 	db.First(&post, id)
 
 	var pdd Post
@@ -112,6 +115,7 @@ func BlogPageHandler(w http.ResponseWriter, r *http.Request) {
 func ProjectListHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := Db(r)
+	defer db.Commit()
 	project := []model.Project{}
 	db.Find(&project)
 
@@ -138,6 +142,7 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := Id(r.URL.Path)
 	project := model.Project{}
 	db := Db(r)
+	defer db.Commit()
 	db.First(&project, id)
 
 	var pdd Project
@@ -151,6 +156,7 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 func NotesHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := Db(r)
+	defer db.Commit()
 	note := []model.Note{}
 	db.Find(&note)
 

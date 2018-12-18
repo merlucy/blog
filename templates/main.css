@@ -1,10 +1,66 @@
 *{
+  font-family: "EB Garamond", serif;
   border-style: solid;
-  border-radius: 1px;
+  border-width: 1px;
+}
+
+a:link {
+  color: black;
+  text-decoration-line: none;
+
+}
+
+a:visited{
+  color: black;
+}
+
+a:hover {
+ color: #0f382f;
+}
+
+.title{
 }
 
 .align-center {
   text-align: center;
   float:none;
   margin:0 auto;
+}
+
+.menu{
+  list-style-type: none;
+  margin: 0 auto;
+}
+
+.menu-li{
+  margin: 0 auto;
+  text-align: center;
+}
+
+.menu-content{
+  font-size: 25px;
+  margin:0 auto;
+}
+
+.post{
+
+}
+
+.date{
+  font-size: 10px;
+}
+
+.creator{
+    float:left;
+    margin-left: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.check{
+  float:right;
+  margin-right: 20px;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
