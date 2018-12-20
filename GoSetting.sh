@@ -47,3 +47,8 @@ fi
 ## sudo apt-get install mysql-client-5.7 mysql-server-5.7
 
 ## go get github.com/jinzhu/gorm
+
+## sudo apt-get update
+#sudo apt-get install nginx
+
+`
