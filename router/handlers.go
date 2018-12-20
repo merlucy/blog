@@ -11,8 +11,9 @@ import (
 )
 
 const (
-	index       = "templates/header.html"
-	postList    = "templates/header.html"
+	header      = "templates/header.html"
+	index       = "templates/index.html"
+	postList    = "templates/index.html"
 	projectList = "templates/projectList.html"
 	noteList    = "templates/vnoteList.html"
 )
@@ -56,7 +57,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	post := []model.Post{}
 	db.Find(&post)
 
-	t, err := template.ParseFiles(index)
+	t, err := template.ParseFiles(index, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -80,7 +81,7 @@ func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 	post := []model.Post{}
 	db.Find(&post)
 
-	t, err := template.ParseFiles(postList)
+	t, err := template.ParseFiles(postList, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -119,7 +120,7 @@ func ProjectListHandler(w http.ResponseWriter, r *http.Request) {
 	project := []model.Project{}
 	db.Find(&project)
 
-	t, err := template.ParseFiles(projectList)
+	t, err := template.ParseFiles(projectList, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
