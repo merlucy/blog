@@ -9,49 +9,4 @@
   <!-- modify stylesheet depending on the page -->
   <link rel="stylesheet" type="text/css" href="/templates/main.css">
 </head>
-<body>
-  <div class="container">
-    <header>
-      <div class="title-row">
-        <h2 class="title">
-          <a class="title" href="/">YJINLEE</a>
-        </h2>
-        <p class="title-intro">Notes on tech, stock market, and life</p>
-      </div>
-      <div class="menu-row row">
-        <ul class="menu">
-          <li class="menu-li">
-            <a class="menu-content" href="/blog">blog</a>
-          </li>
-          <li class="menu-li">
-            <a class="menu-content" href="/projects">projects</a>
-          </li>
-          <li class="menu-li">
-            <a class="menu-content" href="/visiting">visiting notes</a>
-          </li>
-          <li class="menu-li">
-            <a class="menu-content" href="/profile">introduction</a>
-          </li>
-        </ul>
-      </div>
-    </header>
-    <div class="container">
-      {{ range .Posts}}
-      <div class="post row justify-content-center">
-	      <h2 class="post-title col-12"><a href="/blog/{{.ID}}">{{.Title}}</a></h2>
-      </div>
-      <div class="date">{{.CreatedAt}}</div>
-      <div class="body">{{.Body}}</div>
-      <div class="read"><a href="/blog/{{.ID}}">Read More</a></div>
-      {{end}}
-    </div>
-    <footer class="row">
-      <p class="creator">Created by<a href="https://www.fb.com/brianlee0829">@YongJinLee</a>.</p>
-      <p class="check">
-        <a href="#">Back to top</a>
-      </p>
-    </footer>
-  </div>
 
-
-</body>
