@@ -161,7 +161,7 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 	note := []model.Note{}
 	db.Find(&note)
 
-	t, err := template.ParseFiles(noteList)
+	t, err := template.ParseFiles(noteList, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}

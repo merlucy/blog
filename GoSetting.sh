@@ -33,7 +33,7 @@ then
 fi
 
 ## To add command line tools for golang, type the following command
-## go get github.org/x/tools/cmd..
+## go get golang.org/x/tools/cmd...
 
 ## Install latest version of vim
 
