@@ -1,7 +1,7 @@
 *{
   font-family: "EB Garamond", serif;
-  border-style: solid;
-  border-width: 1px;
+  //border-style: solid;
+  //border-width: 1px;
 }
 
 a:link {
@@ -18,7 +18,22 @@ a:hover {
  color: #0f382f;
 }
 
+.title-row{
+  padding-top: 15px;
+}
+
 .title{
+  font-size: 1.25rem;
+  padding-left: 9px;
+  float: left;
+}
+
+.title-intro{
+  color: #9a9a9a;
+  padding-top:2px;
+  margin-left: 1rem;
+  float: left;
+  display: block;
 }
 
 .align-center {
@@ -27,27 +42,51 @@ a:hover {
   margin:0 auto;
 }
 
+.menu-row{
+  clear: both;
+}
+
 .menu{
   list-style-type: none;
   margin: 0 auto;
 }
 
 .menu-li{
-  margin: 0 auto;
+  margin: 0 10px;
   text-align: center;
+  display:inline-block;
+
 }
 
 .menu-content{
-  font-size: 25px;
+  font-size: 20px;
   margin:0 auto;
 }
 
 .post{
+  height: 2rem;
+  margin-top: 1rem;
+}
 
+.post-title{
+  font-size: 2rem;
 }
 
 .date{
-  font-size: 10px;
+  font-size: 16px;
+  color: #9a9a9a;
+}
+
+.body{
+    font-size: 16px;
+}
+
+.read{
+  font-size: 16px;
+}
+
+.read a{
+  color: #268bd2;
 }
 
 .creator{
@@ -55,6 +94,8 @@ a:hover {
     margin-left: 20px;
     margin-top: auto;
     margin-bottom: auto;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .check{

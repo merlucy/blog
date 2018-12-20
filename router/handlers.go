@@ -202,10 +202,11 @@ func Db(r *http.Request) *gorm.DB {
 func PostConvert(post *model.Post) (p Post) {
 
 	p = Post{
-		Title:     post.Title,
-		Body:      post.Body,
-		ID:        post.ID,
-		CreatedAt: post.CreatedAt.Format("2006-01-02 15:04:05 MST"),
+		Title: post.Title,
+		Body:  post.Body,
+		ID:    post.ID,
+
+		CreatedAt: post.CreatedAt.Format("02 Jan 2006"),
 	}
 
 	return p
@@ -217,7 +218,7 @@ func ProjectConvert(project *model.Project) (p Project) {
 		Title:     project.Title,
 		Body:      project.Body,
 		ID:        project.ID,
-		CreatedAt: project.CreatedAt.Format("2006-01-02 15:04:05 MST"),
+		CreatedAt: project.CreatedAt.Format("02 Jan 2006"),
 	}
 
 	return p
@@ -228,7 +229,7 @@ func NoteConvert(note *model.Note) (n Note) {
 	n = Note{
 		Body:      note.Body,
 		ID:        note.ID,
-		CreatedAt: note.CreatedAt.Format("2006-01-02 15:04:05 MST"),
+		CreatedAt: note.CreatedAt.Format("02 Jan 2006"),
 	}
 	return n
 }
