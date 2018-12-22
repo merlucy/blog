@@ -36,6 +36,7 @@ type Post struct {
 	gorm.Model
 	Title  string
 	Body   string
+	Summary string
 	User   User //`gorm:"foreignkey:UserID"`
 	UserID uint
 }
@@ -44,6 +45,7 @@ type Project struct {
 	gorm.Model
 	Title  string
 	Body   string
+	Summary string
 	User   User
 	UserID uint
 }
