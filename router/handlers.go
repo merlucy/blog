@@ -18,6 +18,8 @@ const (
 	projectList = "templates/projectList.html"
 	projectPage = "templates/project.html"
 	noteList    = "templates/vnoteList.html"
+	loginPage		= "templates/login.html"
+	signupPage	= "templates/signup.html"
 )
 
 type PostData struct {
@@ -200,6 +202,8 @@ func PortfolioHandler(w http.ResponseWriter, r *http.Request) {
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "This is my profile", r.URL.Path[1:])
 }
+
+
 
 func Parse(url ...string) (t *template.Template, err error){
 	t, err = template.ParseFiles(url...)
