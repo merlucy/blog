@@ -14,7 +14,9 @@ const (
 	header      = "templates/header.html"
 	index       = "templates/index.html"
 	postList    = "templates/index.html"
+	blogPage 		= "templates/post.html"
 	projectList = "templates/projectList.html"
+	projectPage = "templates/project.html"
 	noteList    = "templates/vnoteList.html"
 )
 
@@ -57,7 +59,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	post := []model.Post{}
 	db.Find(&post)
 
-	t, err := template.ParseFiles(index, header)
+	t, err := Parse(index, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -81,7 +83,7 @@ func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 	post := []model.Post{}
 	db.Find(&post)
 
-	t, err := template.ParseFiles(postList, header)
+	t, err := Parse(postList, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -106,10 +108,16 @@ func BlogPageHandler(w http.ResponseWriter, r *http.Request) {
 	defer db.Commit()
 	db.First(&post, id)
 
+	t, err := Parse(blogPage, header)
+	if err != nil {
+		fmt.Println("Template parse fail")
+	}
+	
 	var pdd Post
 
 	pdd = PostConvert(&post)
-
+	
+	t.Execute(w, pdd)
 	fmt.Printf("ID Search Result: %d\n", pdd.ID)
 }
 
@@ -120,7 +128,7 @@ func ProjectListHandler(w http.ResponseWriter, r *http.Request) {
 	project := []model.Project{}
 	db.Find(&project)
 
-	t, err := template.ParseFiles(projectList, header)
+	t, err := Parse(projectList, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -146,9 +154,15 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 	defer db.Commit()
 	db.First(&project, id)
 
+	t, err := Parse(projectPage, header)
+	if err != nil {
+		fmt.Println("Template parse fail")
+	}
+	
 	var pdd Project
 
 	pdd = ProjectConvert(&project)
+	t.Execute(w, pdd)
 
 	fmt.Printf("ID Search Result: %d\n", pdd.ID)
 
@@ -161,7 +175,7 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 	note := []model.Note{}
 	db.Find(&note)
 
-	t, err := template.ParseFiles(noteList, header)
+	t, err := Parse(noteList, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -185,6 +199,12 @@ func PortfolioHandler(w http.ResponseWriter, r *http.Request) {
 
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "This is my profile", r.URL.Path[1:])
+}
+
+func Parse(url ...string) (t *template.Template, err error){
+	t, err = template.ParseFiles(url...)
+	
+	return t, err
 }
 
 func Id(url string) (string, int) {
