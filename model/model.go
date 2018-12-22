@@ -21,12 +21,18 @@ func init() {
 	fmt.Println("DONE SETTING TABLES")
 	SetRelationship()
 	fmt.Println("DONE SETTING RELATIONSHIPS")
+	DB.AutoMigrate(&User{})
+	DB.AutoMigrate(&Post{})
+	DB.AutoMigrate(&Project{})
+	
 	//Populate Tables
 	//Populate(DB)
 }
 
 type User struct {
 	ID    uint `gorm:"primary_key"`
+	UserID	string
+	Password string
 	Name  string
 	Email string
 }
