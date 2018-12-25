@@ -1,0 +1,61 @@
+{{template "header.html"}}
+<body>
+  <div class="container">
+    <header>
+      <div class="title-row">
+        <h2 class="title">
+          <a class="title" href="/">YJINLEE</a>
+        </h2>
+        <p class="title-intro">Notes on tech, stock market, and life</p>
+      </div>
+      <div class="menu-row row">
+        <ul class="menu">
+          <li class="menu-li">
+            <a class="menu-content" href="/blog">blog</a>
+          </li>
+          <li class="menu-li">
+            <a class="menu-content" href="/projects">projects</a>
+          </li>
+          <li class="menu-li">
+            <a class="menu-content" href="/visiting">visiting notes</a>
+          </li>
+          <li class="menu-li">
+            <a class="menu-content" href="/profile">introduction</a>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <div class="container">
+      <form action="/sup" method="post">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleUserName">Name</label>
+          <input type="text" name="name" class="form-control" id="exampleInputName1" placeholder="Enter email">
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPasswordw">Re-enter Password</label>
+          <input type="password" name="passwordcheck" class="form-control" id="exampleInputPassword2" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <footer class="row">
+      <p class="creator">Created by<a href="https://www.fb.com/brianlee0829">@YongJinLee</a>.</p>
+      <p class="check">
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
+  </div>
+
+
+</body>

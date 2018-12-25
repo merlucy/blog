@@ -24,36 +24,35 @@ func init() {
 	DB.AutoMigrate(&User{})
 	DB.AutoMigrate(&Post{})
 	DB.AutoMigrate(&Project{})
-	
+
 	//Populate Tables
 	//Populate(DB)
 }
 
 type User struct {
-	ID    uint `gorm:"primary_key"`
-	UserID	string
+	ID       uint `gorm:"primary_key"`
 	Password string
-	Name  string
-	Email string
+	Name     string
+	Email    string
 }
 
 //Blog post
 type Post struct {
 	gorm.Model
-	Title  string
-	Body   string
+	Title   string
+	Body    string
 	Summary string
-	User   User //`gorm:"foreignkey:UserID"`
-	UserID uint
+	User    User //`gorm:"foreignkey:UserID"`
+	UserID  uint
 }
 
 type Project struct {
 	gorm.Model
-	Title  string
-	Body   string
+	Title   string
+	Body    string
 	Summary string
-	User   User
-	UserID uint
+	User    User
+	UserID  uint
 }
 
 type Note struct {

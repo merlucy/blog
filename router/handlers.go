@@ -14,12 +14,12 @@ const (
 	header      = "templates/header.html"
 	index       = "templates/index.html"
 	postList    = "templates/index.html"
-	blogPage 		= "templates/post.html"
+	blogPage    = "templates/post.html"
 	projectList = "templates/projectList.html"
 	projectPage = "templates/project.html"
 	noteList    = "templates/vnoteList.html"
-	loginPage		= "templates/login.html"
-	signupPage	= "templates/signup.html"
+	loginPage   = "templates/login.html"
+	signupPage  = "templates/signup.html"
 )
 
 type PostData struct {
@@ -114,11 +114,11 @@ func BlogPageHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
-	
+
 	var pdd Post
 
 	pdd = PostConvert(&post)
-	
+
 	t.Execute(w, pdd)
 	fmt.Printf("ID Search Result: %d\n", pdd.ID)
 }
@@ -160,7 +160,7 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
-	
+
 	var pdd Project
 
 	pdd = ProjectConvert(&project)
@@ -203,11 +203,9 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "This is my profile", r.URL.Path[1:])
 }
 
-
-
-func Parse(url ...string) (t *template.Template, err error){
+func Parse(url ...string) (t *template.Template, err error) {
 	t, err = template.ParseFiles(url...)
-	
+
 	return t, err
 }
 
