@@ -1,8 +1,10 @@
 package router
 
 import (
+	//"blog/model"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,8 +18,18 @@ func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
 
+	db := Db(r)
+	defer db.Commit()
+	//post := []model.Post{}
+
 	r.ParseForm()
-	fmt.Println(r.Form)
+
+	s := strings.Split(r.FormValue("content"), "\n")
+	fmt.Println(s)
+
+	if r.FormValue("title") == "" || r.FormValue("content") == "" {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
