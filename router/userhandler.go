@@ -25,14 +25,13 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	fmt.Println(r.Form)
 
-	//err := json.NewDecoder(r.Body).Decode(&user)
-
 	fmt.Println("Decode complete")
-	/*if err != nil {
-		// If there is something wrong with the request body, return a 400 status
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}*/
+
+	if r.FormValue("name") == "" || r.FormValue("email") == "" || r.FormValue("password") != r.FormValue("passwordcheck") {
+		http.Redirect(w, r, "/signup", http.StatusSeeOther)
+	}
+
+	//need to add if there exists the same name in the database.
 
 	user := model.User{
 		Name:     r.FormValue("name"),

@@ -20,6 +20,7 @@ const (
 	noteList    = "templates/vnoteList.html"
 	loginPage   = "templates/login.html"
 	signupPage  = "templates/signup.html"
+	uploadPage 	= "templates/upload.html"
 )
 
 type PostData struct {

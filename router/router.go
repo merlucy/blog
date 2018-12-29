@@ -22,6 +22,8 @@ var Routes = map[Route]http.HandlerFunc{
 	Route{"SignupPage", "/signup"}:      SignupPageHandler,
 	Route{"Signin", "/signing"}:         SigninHandler,
 	Route{"Signup", "/sup"}:             SignupHandler,
+	Route{"Upload", "/upload"}:          UploadPageHandler,
+	Route{"UploadPage", "/upl"}:         UploadHandler,
 }
 
 func InitRouter() *http.ServeMux {
