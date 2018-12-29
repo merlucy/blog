@@ -1,7 +1,6 @@
 package router
 
 import (
-	//"blog/model"
 	"blog/model"
 	"fmt"
 	"html/template"
@@ -53,7 +52,5 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	db.Create(&post)
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
-
-	//fmt.Fprintf(w, "s with <p> is : %s", s)
 
 }
