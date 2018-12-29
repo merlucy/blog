@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 	"log"
-
+	"html/template"
 	"github.com/jinzhu/gorm"
 )
 
@@ -40,8 +40,8 @@ type User struct {
 type Post struct {
 	gorm.Model
 	Title   string
-	Body    string
-	Summary string
+	Body    template.HTML
+	Summary template.HTML
 	User    User //`gorm:"foreignkey:UserID"`
 	UserID  uint
 }
@@ -49,15 +49,15 @@ type Post struct {
 type Project struct {
 	gorm.Model
 	Title   string
-	Body    string
-	Summary string
+	Body    template.HTML
+	Summary template.HTML
 	User    User
 	UserID  uint
 }
 
 type Note struct {
 	gorm.Model
-	Body   string
+	Body   template.HTML
 	User   User
 	UserID uint
 }

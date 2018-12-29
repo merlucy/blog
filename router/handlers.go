@@ -29,7 +29,8 @@ type PostData struct {
 
 type Post struct {
 	Title     string
-	Body      string
+	Body      template.HTML
+	Summary	  template.HTML
 	ID        uint
 	CreatedAt string
 }
@@ -40,7 +41,8 @@ type ProjectData struct {
 
 type Project struct {
 	Title     string
-	Body      string
+	Body      template.HTML
+	Summary	  template.HTML
 	ID        uint
 	CreatedAt string
 }
@@ -50,7 +52,7 @@ type NoteData struct {
 }
 
 type Note struct {
-	Body      string
+	Body      template.HTML
 	ID        uint
 	CreatedAt string
 }
