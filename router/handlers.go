@@ -219,6 +219,7 @@ func Id(url string) (string, int) {
 
 }
 
+//Returns the attached database session of the request.
 func Db(r *http.Request) *gorm.DB {
 
 	db := r.Context().Value("db")
