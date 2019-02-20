@@ -18,9 +18,9 @@ func Populate(db *gorm.DB) {
 func Users(db *gorm.DB) {
 	fmt.Println("SETTING USERS")
 	examples := []User{
-		User{Name: "Andy", Email: "Andy@test.com"},
-		User{Name: "Brian", Email: "Brian@test.com"},
-		User{Name: "Joe", Email: "Joe@test.com"},
+		User{Name: "Andy", Email: "Andy@test.com", Password: "1234"},
+		User{Name: "Brian", Email: "Brian@test.com", Password: "1234"},
+		User{Name: "Joe", Email: "Joe@test.com", Password: "1234"},
 	}
 
 	for _, u := range examples {

@@ -2,7 +2,7 @@ package router
 
 import (
 	"blog/model"
-	"encoding/json"
+	//	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -18,6 +18,12 @@ func SignupPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func SigninPageHandler(w http.ResponseWriter, r *http.Request) {
+
+	t, err := Parse(signinPage, header)
+	if err != nil {
+		fmt.Println("Template parse fail")
+	}
+	t.Execute(w, nil)
 
 }
 
@@ -45,25 +51,61 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 	db.Create(&user)
 	fmt.Printf("%v created", user)
 
+	c1 := http.Cookie{
+		Name:     "Email",
+		Value:    user.Email,
+		HttpOnly: true,
+	}
+
+	c2 := http.Cookie{
+		Name:     "Password",
+		Value:    user.Password,
+		HttpOnly: true,
+	}
+
+	w.Header().Set("Set-Cookie", c1.String())
+	w.Header().Add("Set-Cookie", c2.String())
+
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func SigninHandler(w http.ResponseWriter, r *http.Request) {
 
-	user := model.User{}
-	err := json.NewDecoder(r.Body).Decode(&user)
+	r.ParseForm()
 
-	if err != nil {
-		// If there is something wrong with the request body, return a 400 status
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	fmt.Println(user)
+	fmt.Println(r.Form)
+	/*
+		if err != nil {
+			// If there is something wrong with the request body, return a 400 status
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	*/
 
 	db := Db(r)
 	defer db.Commit()
 
+	var email, password string = r.FormValue("email"), r.FormValue("password")
+
 	//Check if any element is empty
+	if email == "" || password == "" {
+		http.Redirect(w, r, "/signin", http.StatusSeeOther)
+	}
+
+	user := model.User{}
+
+	db.Where("email = ?", email).First(&user)
+
+	if user.ID == 0 {
+		http.Redirect(w, r, "/signin", http.StatusSeeOther)
+	}
+
+	fmt.Print(user)
+
+	if user.Email == email && user.Password == password {
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 
 	//Implement find by username
 	//db.First(&user, )

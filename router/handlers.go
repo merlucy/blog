@@ -20,7 +20,8 @@ const (
 	noteList    = "templates/vnoteList.html"
 	loginPage   = "templates/login.html"
 	signupPage  = "templates/signup.html"
-	uploadPage 	= "templates/upload.html"
+	signinPage  = "templates/signin.html"
+	uploadPage  = "templates/upload.html"
 )
 
 type PostData struct {
@@ -30,7 +31,7 @@ type PostData struct {
 type Post struct {
 	Title     string
 	Body      template.HTML
-	Summary	  template.HTML
+	Summary   template.HTML
 	ID        uint
 	CreatedAt string
 }
@@ -42,7 +43,7 @@ type ProjectData struct {
 type Project struct {
 	Title     string
 	Body      template.HTML
-	Summary	  template.HTML
+	Summary   template.HTML
 	ID        uint
 	CreatedAt string
 }

@@ -2,9 +2,9 @@ package model
 
 import (
 	"fmt"
-	"log"
-	"html/template"
 	"github.com/jinzhu/gorm"
+	"html/template"
+	"log"
 )
 
 var DB *gorm.DB
@@ -12,11 +12,12 @@ var DB *gorm.DB
 func init() {
 
 	temp, err := gorm.Open("mysql", "root:Gostanford1@/test?charset=utf8&parseTime=True&loc=Local")
+
 	if err != nil {
 		log.Fatal()
 	}
 
-	DB = temp
+	DB = temp.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8 auto_increment=1")
 	SetTables()
 	fmt.Println("DONE SETTING TABLES")
 	SetRelationship()
@@ -40,7 +41,7 @@ type User struct {
 type Post struct {
 	gorm.Model
 	Title   string
-	Body    template.HTML
+	Body    template.HTML `sql:"type:longtext"`
 	Summary template.HTML
 	User    User //`gorm:"foreignkey:UserID"`
 	UserID  uint
@@ -49,7 +50,7 @@ type Post struct {
 type Project struct {
 	gorm.Model
 	Title   string
-	Body    template.HTML
+	Body    template.HTML `sql:"type:longtext"`
 	Summary template.HTML
 	User    User
 	UserID  uint
