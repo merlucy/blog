@@ -19,6 +19,10 @@ func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
 
+	if r.Context().Value("login") == nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+
 	db := Db(r)
 	defer db.Commit()
 

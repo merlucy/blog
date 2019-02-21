@@ -51,21 +51,6 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 	db.Create(&user)
 	fmt.Printf("%v created", user)
 
-	c1 := http.Cookie{
-		Name:     "Email",
-		Value:    user.Email,
-		HttpOnly: true,
-	}
-
-	c2 := http.Cookie{
-		Name:     "Password",
-		Value:    user.Password,
-		HttpOnly: true,
-	}
-
-	w.Header().Set("Set-Cookie", c1.String())
-	w.Header().Add("Set-Cookie", c2.String())
-
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
@@ -74,13 +59,6 @@ func SigninHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	fmt.Println(r.Form)
-	/*
-		if err != nil {
-			// If there is something wrong with the request body, return a 400 status
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-	*/
 
 	db := Db(r)
 	defer db.Commit()
@@ -104,6 +82,21 @@ func SigninHandler(w http.ResponseWriter, r *http.Request) {
 
 	if user.Email == email && user.Password == password {
 
+		c1 := http.Cookie{
+			Name:     "Email",
+			Value:    user.Email,
+			HttpOnly: true,
+		}
+
+		c2 := http.Cookie{
+			Name:     "Password",
+			Value:    user.Password,
+			HttpOnly: true,
+		}
+
+		http.SetCookie(w, &c1)
+		http.SetCookie(w, &c2)
+
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
@@ -114,5 +107,24 @@ func SigninHandler(w http.ResponseWriter, r *http.Request) {
 	//If there is a username, check password with the db.
 	//If successful, redirect
 	//Add session cookie, allowing for blog editing.
+
+}
+
+func SignoutHandler(w http.ResponseWriter, r *http.Request) {
+
+	c1 := http.Cookie{
+		Name:   "Email",
+		MaxAge: -1,
+	}
+
+	c2 := http.Cookie{
+		Name:   "Password",
+		MaxAge: -1,
+	}
+
+	http.SetCookie(w, &c1)
+	http.SetCookie(w, &c2)
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 
 }

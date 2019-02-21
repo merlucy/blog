@@ -76,16 +76,16 @@ func LoginCheck(next http.Handler) http.Handler {
 
 		fmt.Print(r.Cookies())
 
-		cs := r.Cookies()
-
+		c1, err1 := r.Cookie("Email")
+		c2, err2 := r.Cookie("Password")
 		var e, p string
 		var login bool
-		var rn *http.Request
 
-		if cs != nil {
+		if err1 == nil && err2 == nil {
 
-			e = cs[0].Value
-			p = cs[1].Value
+			var rn *http.Request
+			e = c1.Value
+			p = c2.Value
 			login = Login(e, p, r)
 			fmt.Print(login)
 
@@ -94,9 +94,11 @@ func LoginCheck(next http.Handler) http.Handler {
 				ctx := context.WithValue(r.Context(), "login", "true")
 				rn = r.WithContext(ctx)
 			}
+
+			next.ServeHTTP(w, rn)
 		}
 
-		next.ServeHTTP(w, rn)
+		next.ServeHTTP(w, r)
 	})
 
 }
