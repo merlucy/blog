@@ -1,0 +1,2 @@
+//Where to find the nginx config file
+sudo vim /etc/nginx/sites-available/
