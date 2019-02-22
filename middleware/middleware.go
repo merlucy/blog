@@ -6,17 +6,24 @@ import (
 	"net/http"
 	"path"
 
-	"github.com/jinzhu/gorm"
-
 	"blog/model"
-	"blog/router"
+	"github.com/jinzhu/gorm"
 )
 
 type Middleware func(http.Handler) http.Handler
 
+var database *gorm.DB
+
+var middlewares = []Middleware{
+
+	Logger,
+	LoginCheck,
+}
+
 func InitiateMiddleware(db *gorm.DB, mux http.Handler) http.Handler {
 
-	//Middleware addition logic written here
+	database = db
+
 	return Middlewares(db)(Logger(LoginCheck(mux)))
 
 }
@@ -74,6 +81,7 @@ func LoginCheck(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
+		fmt.Println("Printing Cookies")
 		fmt.Print(r.Cookies())
 
 		c1, err1 := r.Cookie("Email")
@@ -86,16 +94,18 @@ func LoginCheck(next http.Handler) http.Handler {
 			var rn *http.Request
 			e = c1.Value
 			p = c2.Value
-			login = Login(e, p, r)
+			fmt.Println("Authenticating")
+			login = Login(e, p)
 			fmt.Print(login)
 
 			if login {
-
+				fmt.Println("Login success")
 				ctx := context.WithValue(r.Context(), "login", "true")
+				fmt.Println(ctx)
 				rn = r.WithContext(ctx)
+				r = rn
 			}
 
-			next.ServeHTTP(w, rn)
 		}
 
 		next.ServeHTTP(w, r)
@@ -103,10 +113,20 @@ func LoginCheck(next http.Handler) http.Handler {
 
 }
 
-func Login(email, password string, r *http.Request) bool {
-	db := router.Db(r)
+//Login function identifies the email and password with reference to the database.
+//This does not use the database session created within the middleware to maintain
+//the integrity of architecture.
+//
+//Further expansion of login server should be in mind, thus allowing for separation
+//of login database call and handler's session database call.
+func Login(email, password string) bool {
+
+	fmt.Println("Login procedure")
 	user := model.User{}
-	db.Where("email = ?", email).First(&user)
+	fmt.Println(email)
+
+	database.Where("Email = ?", email).First(&user)
+	fmt.Println("Okay")
 
 	if user.ID == 0 {
 		return false

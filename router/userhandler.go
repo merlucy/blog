@@ -2,12 +2,15 @@ package router
 
 import (
 	"blog/model"
-	//	"encoding/json"
 	"fmt"
 	"net/http"
 )
 
 func SignupPageHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Context().Value("login") != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 
 	t, err := Parse(signupPage, header)
 	if err != nil {
@@ -18,6 +21,10 @@ func SignupPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func SigninPageHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Context().Value("login") != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 
 	t, err := Parse(signinPage, header)
 	if err != nil {
@@ -58,6 +65,7 @@ func SigninHandler(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 
+	fmt.Println("Printing Form")
 	fmt.Println(r.Form)
 
 	db := Db(r)
@@ -125,6 +133,7 @@ func SignoutHandler(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &c1)
 	http.SetCookie(w, &c2)
 
+	fmt.Println("Cookie Deleted!")
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 
 }

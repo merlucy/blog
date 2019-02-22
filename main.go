@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	
+
 	//Server is initiated by init() in server.go
 	defer server.db.Close()
 

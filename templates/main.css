@@ -23,14 +23,14 @@ a:hover {
 }
 
 .title{
-  
+
   padding-left: 9px;
   float: left;
 }
 
 .title-intro{
   color: #9a9a9a;
-  padding-top:2px;
+  margin-top:13px;
   margin-left: 1rem;
   float: left;
   display: block;
@@ -73,12 +73,20 @@ a:hover {
 }
 
 .date{
+  margin-top: 5px;
+  margin-bottom: 5px;
   font-size: 16px;
   color: #9a9a9a;
 }
 
 .body{
     font-size: 16px;
+}
+
+.pg{
+
+  margin-bottom: 20px;
+
 }
 
 .read{

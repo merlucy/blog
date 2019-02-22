@@ -27,7 +27,7 @@ func init() {
 	DB.AutoMigrate(&Project{})
 
 	//Populate Tables
-	//Populate(DB)
+	//opulate(DB)
 }
 
 type User struct {

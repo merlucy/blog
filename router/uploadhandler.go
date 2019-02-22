@@ -10,6 +10,10 @@ import (
 
 func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
 
+	if r.Context().Value("login") == nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+
 	t, err := Parse(uploadPage, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
@@ -18,10 +22,6 @@ func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
-
-	if r.Context().Value("login") == nil {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-	}
 
 	db := Db(r)
 	defer db.Commit()
@@ -33,7 +33,8 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var p, pc string
-	p = "<div>"
+	p = "<div class=\"pg\">"
+	fmt.Println(p)
 	pc = "</div>"
 	strs := []string{p, "", pc}
 
