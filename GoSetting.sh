@@ -51,4 +51,5 @@ fi
 ## sudo apt-get update
 #sudo apt-get install nginx
 
-`
+## how to install mysql on linux server
+## https://stackoverflow.com/questions/39025524/how-to-install-mysql-5-7-on-amazon-ec2 
