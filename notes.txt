@@ -1,2 +1,8 @@
 //Where to find the nginx config file
 sudo vim /etc/nginx/sites-available/
+
+//nginx setup info
+http://conory.com/blog/42847
+
+//nginx setup for go servers
+http://evanbyrne.com/blog/go-production-server-ubuntu-nginx
