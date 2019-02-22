@@ -1,30 +1,4 @@
 {{template "header.html"}}
-<body>
-  <div class="container">
-    <header>
-      <div class="title-row">
-        <h2 class="title">
-          <a class="title" href="/">YJINLEE</a>
-        </h2>
-        <p class="title-intro">Notes on tech, stock market, and life</p>
-      </div>
-      <div class="menu-row row">
-        <ul class="menu">
-          <li class="menu-li">
-            <a class="menu-content" href="/blog">blog</a>
-          </li>
-          <li class="menu-li">
-            <a class="menu-content" href="/projects">projects</a>
-          </li>
-          <li class="menu-li">
-            <a class="menu-content" href="/visiting">visiting notes</a>
-          </li>
-          <li class="menu-li">
-            <a class="menu-content" href="/profile">introduction</a>
-          </li>
-        </ul>
-      </div>
-    </header>
     <div class="container">
       {{ range .Notes}}
       <div class="post row justify-content-center">
