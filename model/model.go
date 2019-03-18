@@ -11,7 +11,7 @@ var DB *gorm.DB
 
 func init() {
 
-	temp, err := gorm.Open("mysql", "root:Gostanford1!@/test?charset=utf8&parseTime=True&loc=Local")
+	temp, err := gorm.Open("mysql", "root:Gostanford1@/test?charset=utf8&parseTime=True&loc=Local")
 
 	if err != nil {
 		log.Fatal()

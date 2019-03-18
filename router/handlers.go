@@ -72,11 +72,12 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	var pd PostData
 	var pdd Post
-
-	for _, p := range post {
-
-		pdd = PostConvert(&p)
+	
+	for i := len(post); i > 0; i-- {
+		
+		pdd = PostConvert(&post[i - 1])
 		pd.Posts = append(pd.Posts, pdd)
+		
 	}
 
 	t.Execute(w, pd)
@@ -97,10 +98,11 @@ func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 	var pd PostData
 	var pdd Post
 
-	for _, p := range post {
-
-		pdd = PostConvert(&p)
+	for i := len(post); i > 0; i-- {
+		
+		pdd = PostConvert(&post[i - 1])
 		pd.Posts = append(pd.Posts, pdd)
+		
 	}
 
 	t.Execute(w, pd)
