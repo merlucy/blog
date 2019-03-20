@@ -21,7 +21,7 @@ a:visited{
 a:hover {
  color: #0f382f;
 }
-
+/*
 .title-row{
   padding-top: 15px;
 }
@@ -32,12 +32,18 @@ a:hover {
   float: left;
 }
 
-.title-intro{
-  color: #9a9a9a;
-  margin-top:13px;
-  margin-left: 1rem;
-  float: left;
-  display: block;
+
+*/
+.navbar-brand {
+  font-size: 1.5rem;
+}
+
+.navbar-text{
+  margin-top:0.4rem;
+}
+
+.nav-link{
+  font-size: 1.1rem;
 }
 
 .align-center {
@@ -45,28 +51,12 @@ a:hover {
   float:none;
   margin:0 auto;
 }
-/*
-.menu-row{
-  clear: both;
+
+.navbar-nav{
+
+  margin-left: auto;
 }
 
-.menu{
-  list-style-type: none;
-  margin: 0 auto;
-}
-
-.menu-li{
-  margin: 0 10px;
-  text-align: center;
-  display:inline-block;
-
-}
-
-.menu-content{
-  font-size: 20px;
-  margin:0 auto;
-}
-*/
 .post{
   height: 2rem;
   margin-top: 1rem;
