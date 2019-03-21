@@ -1,11 +1,7 @@
 *{
-  font-family: "EB Garamond", serif;
+  font-family: 'EB Garamond', 'Noto Sans KR', serif;
   //border-style: solid;
   //border-width: 1px;
-}
-
-header{
-
 }
 
 a:link {
@@ -21,25 +17,21 @@ a:visited{
 a:hover {
  color: #0f382f;
 }
-/*
-.title-row{
-  padding-top: 15px;
+
+.top-container{
+
 }
 
-.title{
-
-  padding-left: 9px;
-  float: left;
-}
-
-
-*/
 .navbar-brand {
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .navbar-text{
   margin-top:0.4rem;
+}
+
+.navbar{
+  padding: 0.2rem 1rem;
 }
 
 .nav-link{
@@ -63,7 +55,7 @@ a:hover {
 }
 
 .post-title{
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .date{
@@ -89,6 +81,10 @@ a:hover {
 
 .read a{
   color: #268bd2;
+}
+
+.ftr{
+  padding-bottom: 1rem;
 }
 
 .creator{
