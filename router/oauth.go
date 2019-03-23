@@ -71,24 +71,37 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	addVisitor(response)
+	addVisitor(r, response)
 
 	log.Printf("parseResponseBody: %s\n", string(response))
 
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
-func addVisitor(rsp []byte) {
+func addVisitor(r *http.Request, rsp []byte) {
 
 	info := make(map[string]interface{})
 
 	err := json.Unmarshal(rsp, &info)
 
 	if err != nil {
-		fmt.Println("Marshal error")
+		fmt.Print("Marshal error : ")
 		fmt.Println(err)
 		return
 	}
 
 	fmt.Println(info)
+
+	db := DB(r)
+	defer db.Commit()
+
+	v := model.Visitor{
+		Name:    info["Name"],
+		Email:   info["Email"],
+		Picture: info["Picture"],
+		Link:    info["Link"],
+	}
+
+	fmt.Println(v)
+
 }
