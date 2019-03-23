@@ -52,6 +52,10 @@ a:hover {
   background-color: #2ab7ca;
 }
 
+.comment{
+  clear: both;
+}
+
 .profile-pic{
   height: 2.5rem;
   width: 2.5rem;
@@ -67,6 +71,11 @@ a:hover {
   border-color: #2ab7ca;
   width: 100%;
   color: white;
+}
+
+.notes{
+  margin-top: 1rem;
+
 }
 
 .post{
