@@ -62,6 +62,12 @@ a:hover {
   float: left;
 }
 
+.profile-name{
+  float:left;
+  margin-left: 1rem;
+  clear:right;
+}
+
 .loginstatus{
   float:right;
 }
