@@ -6,10 +6,12 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 type NoteData struct {
-	Notes []Note
+	Button template.HTML
+	Notes  []Note
 }
 
 type Note struct {
@@ -34,8 +36,18 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Template parse fail")
 	}
 
+	var loginButton template.HTML
 	var nd NoteData
 	var ndd Note
+
+	if v.ID != 0 {
+
+		loginButton = "<div>Signed in as </div>"
+		nd.Button = loginButton
+	} else {
+		loginButton = "<a class=\"btn btn-primary\" href=\"/gologin\" role=\"button\">Sign-in with Google</a>"
+		nd.Button = loginButton
+	}
 
 	for _, n := range note {
 
@@ -80,4 +92,50 @@ func Visitor(r *http.Request) model.Visitor {
 	}
 
 	return v
+}
+
+func UploadNoteHandler(w http.ResponseWriter, r *http.Request) {
+
+	v := Visitor(r)
+
+	if v.ID == 0 {
+		return
+	}
+
+	db := Db(r)
+	defer db.Commit()
+
+	r.ParseForm()
+
+	if r.FormValue("content") == "" {
+		http.Redirect(w, r, "/visiting", http.StatusSeeOther)
+	}
+
+	var p, pc string
+	p = "<div class=\"pg\">"
+	fmt.Println(p)
+	pc = "</div>"
+	strs := []string{p, "", pc}
+
+	s := strings.Split(r.FormValue("content"), "\n")
+
+	for i, t := range s {
+		if i%2 == 1 {
+			continue
+		}
+
+		strs[1] = t
+		s[i] = strings.Join(strs, "")
+	}
+
+	note := model.Note{
+		Body:      template.HTML(strings.Join(s, "")),
+		Visitor:   v,
+		VisitorID: v.ID,
+	}
+
+	db.Create(&note)
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+
 }
