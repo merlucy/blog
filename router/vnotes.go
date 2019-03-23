@@ -42,7 +42,8 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 
 	if v.ID != 0 {
 
-		loginButton = "<div>Signed in as </div>"
+		loginButton = "<div class=\"container loginstatus\"><img src=\"" + v.Link + "><div>You are temporarily signed in as " + v.Name + "</div></div>"
+
 		nd.Button = loginButton
 	} else {
 		loginButton = "<a class=\"btn btn-primary\" href=\"/gologin\" role=\"button\">Sign-in with Google</a>"
