@@ -65,7 +65,10 @@ a:hover {
 .profile-name{
   float:left;
   margin-left: 1rem;
-  clear:right;
+}
+
+.comment{
+  margin-left: 1rem;
 }
 
 .loginstatus{
@@ -81,7 +84,6 @@ a:hover {
 
 .notes{
   margin-top: 1rem;
-
 }
 
 .post{
@@ -98,6 +100,10 @@ a:hover {
   margin-bottom: 5px;
   font-size: 16px;
   color: #9a9a9a;
+}
+
+.note-date{
+  clear:left;
 }
 
 .body{
