@@ -80,7 +80,7 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 func addVisitor(rsp []byte) {
 
-	var info []map[string]interface{}
+	info := make(map[string]interface{})
 
 	err := json.Unmarshal(rsp, &info)
 
@@ -90,5 +90,5 @@ func addVisitor(rsp []byte) {
 		return
 	}
 
-	//fmt.Println(info)
+	fmt.Println(info)
 }
