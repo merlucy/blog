@@ -97,10 +97,10 @@ func addVisitor(r *http.Request, rsp []byte) {
 	defer db.Commit()
 
 	v := model.Visitor{
-		Name:    info["Name"].(string),
-		Email:   info["Email"].(string),
-		Picture: info["Picture"].(string),
-		Link:    info["Link"].(string),
+		Name:    info["name"].(string),
+		Email:   info["email"].(string),
+		Picture: info["picture"].(string),
+		Link:    info["link"].(string),
 	}
 
 	fmt.Println(v)
