@@ -25,6 +25,8 @@ func init() {
 	DB.AutoMigrate(&User{})
 	DB.AutoMigrate(&Post{})
 	DB.AutoMigrate(&Project{})
+	DB.AutoMigrate(&Visitor{})
+	DB.AutoMigrate(&Note{})
 
 	//Populate Tables
 	//opulate(DB)
