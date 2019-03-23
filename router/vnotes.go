@@ -123,7 +123,7 @@ func UploadNoteHandler(w http.ResponseWriter, r *http.Request) {
 	v := Visitor(r)
 
 	if v.ID == 0 {
-		return
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
 	db := Db(r)
