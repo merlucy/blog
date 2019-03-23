@@ -93,7 +93,7 @@ func addVisitor(r *http.Request, rsp []byte) {
 
 	fmt.Println(info)
 
-	db := DB(r)
+	db := Db(r)
 	defer db.Commit()
 
 	v := model.Visitor{
