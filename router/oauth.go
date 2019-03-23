@@ -99,7 +99,6 @@ func addVisitor(r *http.Request, rsp []byte) model.Visitor {
 		Name:    info["name"].(string),
 		Email:   info["email"].(string),
 		Picture: info["picture"].(string),
-		Link:    info["link"].(string),
 	}
 
 	db := Db(r)
