@@ -30,6 +30,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.FormValue("title") == "" || r.FormValue("content") == "" {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	}
 
 	var p, pc string

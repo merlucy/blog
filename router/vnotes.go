@@ -133,6 +133,7 @@ func UploadNoteHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.FormValue("content") == "" {
 		http.Redirect(w, r, "/visiting", http.StatusSeeOther)
+		return
 	}
 
 	var p, pc string
