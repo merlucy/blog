@@ -27,6 +27,7 @@ var Routes = map[Route]http.HandlerFunc{
 	Route{"UploadPage", "/upl"}:         UploadHandler,
 	Route{"GoogleLogin", "/gologin"}:    GoogleLoginHandler,
 	Route{"GoogleCallback", "/gocb"}:    GoogleCallbackHandler,
+	Route{"UploadNote", "/uplnote"}:     UploadNoteHandler,
 }
 
 func InitRouter() *http.ServeMux {
