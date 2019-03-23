@@ -15,9 +15,12 @@ type NoteData struct {
 }
 
 type Note struct {
-	Body      template.HTML
-	ID        uint
-	CreatedAt string
+	Body           template.HTML
+	ID             uint
+	VisitorID      uint
+	VisitorName    string
+	VisitorProfile string
+	CreatedAt      string
 }
 
 func NotesHandler(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +45,7 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 
 	if v.ID != 0 {
 
-		loginButton = template.HTML("<div class=\"row logincheck\"><img class=\"profile-pic\" src=\"" + v.Picture + "\"><div class=\"loginstatus\">You are temporarily signed in as " + v.Name + "</div></div>")
+		loginButton = template.HTML("<div class=\"container logincheck\"><img class=\"profile-pic\" src=\"" + v.Picture + "\"><div class=\"loginstatus\">You are temporarily signed in as " + v.Name + "</div></div>")
 
 		nd.Button = loginButton
 	} else {
@@ -53,6 +56,9 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 	for _, n := range note {
 
 		ndd = NoteConvert(&n)
+		v2 := VisitorByID(int(ndd.VisitorID))
+		ndd.VisitorName = v2.Name
+		ndd.VisitorProfile = v2.Picture
 		nd.Notes = append(nd.Notes, ndd)
 	}
 
@@ -65,6 +71,7 @@ func NoteConvert(note *model.Note) (n Note) {
 	n = Note{
 		Body:      note.Body,
 		ID:        note.ID,
+		VisitorID: note.VisitorID,
 		CreatedAt: note.CreatedAt.Format("02 Jan 2006"),
 	}
 	return n
@@ -93,6 +100,22 @@ func Visitor(r *http.Request) model.Visitor {
 	}
 
 	return v
+}
+
+func VisitorByID(id int) model.Visitor {
+
+	db := middleware.Database
+
+	v := model.Visitor{}
+	db.Where("ID = ?", id).First(&v)
+
+	if v.ID == 0 {
+		fmt.Println("Visitor not registered")
+		return model.Visitor{}
+	}
+
+	return v
+
 }
 
 func UploadNoteHandler(w http.ResponseWriter, r *http.Request) {
