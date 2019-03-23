@@ -81,7 +81,7 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 func addVisitor(r *http.Request, rsp []byte) {
 
-	info := make(map[string]string)
+	info := make(map[string]interface{})
 
 	err := json.Unmarshal(rsp, &info)
 
@@ -97,10 +97,10 @@ func addVisitor(r *http.Request, rsp []byte) {
 	defer db.Commit()
 
 	v := model.Visitor{
-		Name:    string(info["Name"]),
-		Email:   string(info["Email"]),
-		Picture: string(info["Picture"]),
-		Link:    string(info["Link"]),
+		Name:    info["Name"].(string),
+		Email:   info["Email"].(string),
+		Picture: info["Picture"].(string),
+		Link:    info["Link"].(string),
 	}
 
 	fmt.Println(v)
