@@ -86,8 +86,9 @@ func addVisitor(rsp []byte) {
 
 	if err != nil {
 		fmt.Println("Marshal error")
+		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(info)
+	//fmt.Println(info)
 }
