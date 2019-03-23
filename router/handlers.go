@@ -48,16 +48,6 @@ type Project struct {
 	CreatedAt string
 }
 
-type NoteData struct {
-	Notes []Note
-}
-
-type Note struct {
-	Body      template.HTML
-	ID        uint
-	CreatedAt string
-}
-
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := Db(r)
@@ -72,12 +62,12 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	var pd PostData
 	var pdd Post
-	
+
 	for i := len(post); i > 0; i-- {
-		
-		pdd = PostConvert(&post[i - 1])
+
+		pdd = PostConvert(&post[i-1])
 		pd.Posts = append(pd.Posts, pdd)
-		
+
 	}
 
 	t.Execute(w, pd)
@@ -99,10 +89,10 @@ func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 	var pdd Post
 
 	for i := len(post); i > 0; i-- {
-		
-		pdd = PostConvert(&post[i - 1])
+
+		pdd = PostConvert(&post[i-1])
 		pd.Posts = append(pd.Posts, pdd)
-		
+
 	}
 
 	t.Execute(w, pd)
@@ -176,31 +166,6 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func NotesHandler(w http.ResponseWriter, r *http.Request) {
-
-	db := Db(r)
-	defer db.Commit()
-	note := []model.Note{}
-	db.Find(&note)
-
-	t, err := Parse(noteList, header)
-	if err != nil {
-		fmt.Println("Template parse fail")
-	}
-
-	var nd NoteData
-	var ndd Note
-
-	for _, n := range note {
-
-		ndd = NoteConvert(&n)
-		nd.Notes = append(nd.Notes, ndd)
-	}
-
-	t.Execute(w, nd)
-
-}
-
 func PortfolioHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "This is the index page", r.URL.Path[1:])
 }
@@ -252,16 +217,6 @@ func ProjectConvert(project *model.Project) (p Project) {
 	}
 
 	return p
-}
-
-func NoteConvert(note *model.Note) (n Note) {
-
-	n = Note{
-		Body:      note.Body,
-		ID:        note.ID,
-		CreatedAt: note.CreatedAt.Format("02 Jan 2006"),
-	}
-	return n
 }
 
 func ParamSame(subject, compare string) bool {

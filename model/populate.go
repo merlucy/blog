@@ -58,7 +58,7 @@ func Projects(db *gorm.DB) {
 
 func Notes(db *gorm.DB) {
 	fmt.Println("SETTING NOTES")
-	examples := []Note{
+	/*examples := []Note{
 		Note{Body: "LOLBA", UserID: 1},
 		Note{Body: "LULBA", UserID: 2},
 		Note{Body: "LILBA", UserID: 3},
@@ -66,5 +66,5 @@ func Notes(db *gorm.DB) {
 
 	for _, u := range examples {
 		db.Create(&u)
-	}
+	}*/
 }

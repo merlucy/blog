@@ -37,6 +37,14 @@ type User struct {
 	Email    string
 }
 
+type Visitor struct {
+	ID      uint `gorm:"primary_key`
+	Name    string
+	Email   string
+	Picture string
+	Link    string
+}
+
 //Blog post
 type Post struct {
 	gorm.Model
@@ -58,17 +66,10 @@ type Project struct {
 
 type Note struct {
 	gorm.Model
-	Body   template.HTML
-	User   User
-	UserID uint
+	Body      template.HTML
+	Visitor   Visitor
+	VisitorID uint
 }
-
-/*
-type Portfolio struct {
-
-
-}
-*/
 
 func SetTables() {
 
@@ -86,9 +87,10 @@ func SetRelationship() {
 	var post Post
 	var project Project
 	var note Note
+	var visitor Visitor
 
 	DB.Model(&user).Related(&post)
 	DB.Model(&user).Related(&project)
-	DB.Model(&user).Related(&note)
+	DB.Model(&visitor).Related(&note)
 
 }
