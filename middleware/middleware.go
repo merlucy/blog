@@ -12,7 +12,7 @@ import (
 
 type Middleware func(http.Handler) http.Handler
 
-var database *gorm.DB
+var Database *gorm.DB
 
 var middlewares = []Middleware{
 
@@ -22,7 +22,7 @@ var middlewares = []Middleware{
 
 func InitiateMiddleware(db *gorm.DB, mux http.Handler) http.Handler {
 
-	database = db
+	Database = db
 
 	return Middlewares(db)(Logger(LoginCheck(mux)))
 
@@ -125,7 +125,7 @@ func Login(email, password string) bool {
 	user := model.User{}
 	fmt.Println(email)
 
-	database.Where("Email = ?", email).First(&user)
+	Database.Where("Email = ?", email).First(&user)
 	fmt.Println("Okay")
 
 	if user.ID == 0 {

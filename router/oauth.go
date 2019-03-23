@@ -72,14 +72,16 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	addVisitor(r, response)
+	v := addVisitor(r, response)
+	addVisitorCookie(w, r, v)
 
 	log.Printf("parseResponseBody: %s\n", string(response))
 
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
-func addVisitor(r *http.Request, rsp []byte) {
+//Need to add logic for adding duplicate visitors
+func addVisitor(r *http.Request, rsp []byte) model.Visitor {
 
 	info := make(map[string]interface{})
 
@@ -88,13 +90,10 @@ func addVisitor(r *http.Request, rsp []byte) {
 	if err != nil {
 		fmt.Print("Marshal error : ")
 		fmt.Println(err)
-		return
+		return model.Visitor{}
 	}
 
 	fmt.Println(info)
-
-	db := Db(r)
-	defer db.Commit()
 
 	v := model.Visitor{
 		Name:    info["name"].(string),
@@ -103,6 +102,23 @@ func addVisitor(r *http.Request, rsp []byte) {
 		Link:    info["link"].(string),
 	}
 
-	fmt.Println(v)
+	db := Db(r)
+	defer db.Commit()
 
+	db.Create(&v)
+	fmt.Printf("%v created", v)
+
+	return v
+}
+
+//Need to add visitor logout function
+func addVisitorCookie(w http.ResponseWriter, r *http.Request, v model.Visitor) {
+
+	c := http.Cookie{
+		Name:     "VisitorEmail",
+		Value:    v.Email,
+		HttpOnly: true,
+	}
+
+	http.SetCookie(w, &c)
 }

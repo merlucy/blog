@@ -1,6 +1,7 @@
 package router
 
 import (
+	"blog/middleware"
 	"blog/model"
 	"fmt"
 	"html/template"
@@ -18,6 +19,10 @@ type Note struct {
 }
 
 func NotesHandler(w http.ResponseWriter, r *http.Request) {
+
+	v := Visitor(r)
+
+	fmt.Println(v)
 
 	db := Db(r)
 	defer db.Commit()
@@ -50,4 +55,29 @@ func NoteConvert(note *model.Note) (n Note) {
 		CreatedAt: note.CreatedAt.Format("02 Jan 2006"),
 	}
 	return n
+}
+
+func Visitor(r *http.Request) model.Visitor {
+
+	c, err := r.Cookie("VisitorEmail")
+
+	if err == nil {
+
+		fmt.Println("No Cookie")
+		return model.Visitor{}
+	}
+
+	e := c.Value
+
+	db := middleware.Database
+
+	v := model.Visitor{}
+	db.Where("Email = ?", e).First(&v)
+
+	if v.ID == 0 {
+		fmt.Println("Visitor not registered")
+		return model.Visitor{}
+	}
+
+	return v
 }
