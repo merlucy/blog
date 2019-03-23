@@ -61,7 +61,7 @@ func Visitor(r *http.Request) model.Visitor {
 
 	c, err := r.Cookie("VisitorEmail")
 
-	if err == nil {
+	if err != nil {
 
 		fmt.Println("No Cookie")
 		return model.Visitor{}
