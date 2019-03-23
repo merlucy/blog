@@ -49,6 +49,13 @@ a:hover {
   margin-left: auto;
 }
 
+.profile-pic{
+
+  height: 1.5rem;
+  width: 1.5rem;
+
+}
+
 .post{
   height: 2rem;
   margin-top: 1rem;

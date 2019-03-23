@@ -42,7 +42,7 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 
 	if v.ID != 0 {
 
-		loginButton = template.HTML("<div class=\"container loginstatus\"><img src=\"" + v.Picture + "\"><div>You are temporarily signed in as " + v.Name + "</div></div>")
+		loginButton = template.HTML("<div class=\"row loginstatus\"><img class=\"profile-pic\" src=\"" + v.Picture + "\"><div>You are temporarily signed in as " + v.Name + "</div></div>")
 
 		nd.Button = loginButton
 	} else {
