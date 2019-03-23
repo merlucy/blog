@@ -1,6 +1,7 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -70,7 +71,23 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	addVisitor(response)
+
 	log.Printf("parseResponseBody: %s\n", string(response))
 
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+}
+
+func addVisitor(rsp []byte) {
+
+	var info []map[string]string
+
+	err := json.Unmarshal(rsp, &info)
+
+	if err != nil {
+		fmt.Println("Marshal error")
+		return
+	}
+
+	fmt.Println(info)
 }
