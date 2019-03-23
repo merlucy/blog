@@ -2,11 +2,9 @@
     <div class="container">
       {{ .Button }}
       {{ range .Notes}}
-      <div class="post row justify-content-center">
-	       </div>
       <div class="date">{{.CreatedAt}}</div>
       <div class="body">{{.Body}}</div>
-      <div class="body">{{.Link}}</div>
+      <div class="body">{{.Visitor}}</div>
       {{end}}
     </div>
 

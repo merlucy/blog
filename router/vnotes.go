@@ -136,6 +136,6 @@ func UploadNoteHandler(w http.ResponseWriter, r *http.Request) {
 
 	db.Create(&note)
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/visiting", http.StatusSeeOther)
 
 }
