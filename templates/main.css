@@ -63,7 +63,6 @@ a:hover {
 }
 
 .profile-name{
-  float:left;
   margin-left: 1rem;
 }
 
@@ -103,7 +102,6 @@ a:hover {
 }
 
 .note-date{
-  clear:left;
 }
 
 .body{

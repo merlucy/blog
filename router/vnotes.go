@@ -53,9 +53,9 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 		nd.Button = loginButton
 	}
 
-	for _, n := range note {
+	for i := len(note); i > 0; i-- {
 
-		ndd = NoteConvert(&n)
+		ndd = NoteConvert(&n[i-1])
 		v2 := VisitorByID(int(ndd.VisitorID))
 		ndd.VisitorName = v2.Name
 		ndd.VisitorProfile = v2.Picture
