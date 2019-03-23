@@ -45,15 +45,28 @@ a:hover {
 }
 
 .navbar-nav{
-
   margin-left: auto;
 }
 
+.logincheck{
+  background-color: #2ab7ca;
+}
+
 .profile-pic{
+  height: 2.5rem;
+  width: 2.5rem;
+  float: left;
+}
 
-  height: 1.5rem;
-  width: 1.5rem;
+.loginstatus{
+  float:right;
+}
 
+.btn-primary{
+  background-color: #2ab7ca;
+  border-color: #2ab7ca;
+  width: 100%;
+  color: white;
 }
 
 .post{
