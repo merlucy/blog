@@ -15,8 +15,8 @@
 
     <div class="container notes">
       {{ range .Notes}}
-      <div>{{.VisitorName}}</div>
       <img class="profile-pic" src="{{.VisitorProfile}}"/>
+      <div class="profile-name">{{.VisitorName}}</div>
       <div class="date">{{.CreatedAt}}</div>
       <div class="body">{{.Body}}</div>
       {{end}}
