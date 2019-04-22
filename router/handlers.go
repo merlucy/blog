@@ -22,6 +22,7 @@ const (
 	signupPage  = "templates/signup.html"
 	signinPage  = "templates/signin.html"
 	uploadPage  = "templates/upload.html"
+	editPage    = "templates/edit.html"
 )
 
 type PostData struct {
@@ -48,12 +49,34 @@ type Project struct {
 	CreatedAt string
 }
 
+func EditPageHandler(w http.ResponseWriter, r *http.Request) {
+
+	id, _ := Id(r.URL.Path)
+	db := Db(r)
+
+	post := model.Post{}
+
+	db.First(&post, id)
+
+	t, err := Parse(editPage, header)
+	if err != nil {
+		fmt.Println("Template parse fail")
+	}
+
+	var p Post
+
+	p = PostConvert(&post)
+
+	t.Execute(w, p)
+
+}
+
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := Db(r)
 	defer db.Commit()
 	post := []model.Post{}
-	db.Find(&post)
+	db.Order("created_at desc").Limit(5).Find(&post)
 
 	t, err := Parse(index, header)
 	if err != nil {
@@ -63,9 +86,9 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	var pd PostData
 	var pdd Post
 
-	for i := len(post); i > 0; i-- {
+	for i := 0; i < len(post); i++ {
 
-		pdd = PostConvert(&post[i-1])
+		pdd = PostConvert(&post[i])
 		pd.Posts = append(pd.Posts, pdd)
 
 	}
@@ -78,7 +101,7 @@ func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 	db := Db(r)
 	defer db.Commit()
 	post := []model.Post{}
-	db.Find(&post)
+	db.Order("created_at desc").Limit(5).Find(&post)
 
 	t, err := Parse(postList, header)
 	if err != nil {
@@ -88,9 +111,9 @@ func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 	var pd PostData
 	var pdd Post
 
-	for i := len(post); i > 0; i-- {
+	for i := 0; i < len(post); i++ {
 
-		pdd = PostConvert(&post[i-1])
+		pdd = PostConvert(&post[i])
 		pd.Posts = append(pd.Posts, pdd)
 
 	}
@@ -116,7 +139,7 @@ func BlogPageHandler(w http.ResponseWriter, r *http.Request) {
 	pdd = PostConvert(&post)
 
 	t.Execute(w, pdd)
-	fmt.Printf("ID Search Result: %d\n", pdd.ID)
+	fmt.Printf("		Show Post with ID: %d\n", pdd.ID)
 }
 
 func ProjectListHandler(w http.ResponseWriter, r *http.Request) {
@@ -162,7 +185,7 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 	pdd = ProjectConvert(&project)
 	t.Execute(w, pdd)
 
-	fmt.Printf("ID Search Result: %d\n", pdd.ID)
+	fmt.Printf("		Show Project with ID: %d\n", pdd.ID)
 
 }
 
@@ -183,6 +206,7 @@ func Parse(url ...string) (t *template.Template, err error) {
 func Id(url string) (string, int) {
 
 	params := strings.Split(url, "/")
+
 	return params[len(params)-1], len(params)
 
 }
@@ -197,9 +221,10 @@ func Db(r *http.Request) *gorm.DB {
 func PostConvert(post *model.Post) (p Post) {
 
 	p = Post{
-		Title: post.Title,
-		Body:  post.Body,
-		ID:    post.ID,
+		Title:   post.Title,
+		Body:    post.Body,
+		Summary: post.Summary,
+		ID:      post.ID,
 
 		CreatedAt: post.CreatedAt.Format("02 Jan 2006"),
 	}

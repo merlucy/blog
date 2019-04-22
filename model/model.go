@@ -52,8 +52,8 @@ type Post struct {
 	gorm.Model
 	Title   string
 	Body    template.HTML `sql:"type:longtext"`
-	Summary template.HTML
-	User    User //`gorm:"foreignkey:UserID"`
+	Summary template.HTML `sql:"type:longtext:`
+	User    User          //`gorm:"foreignkey:UserID"`
 	UserID  uint
 }
 

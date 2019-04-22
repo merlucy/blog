@@ -81,9 +81,6 @@ func LoginCheck(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		fmt.Println("Printing Cookies")
-		fmt.Print(r.Cookies())
-
 		c1, err1 := r.Cookie("Email")
 		c2, err2 := r.Cookie("Password")
 		var e, p string
@@ -94,14 +91,10 @@ func LoginCheck(next http.Handler) http.Handler {
 			var rn *http.Request
 			e = c1.Value
 			p = c2.Value
-			fmt.Println("Authenticating")
 			login = Login(e, p)
-			fmt.Print(login)
 
 			if login {
-				fmt.Println("Login success")
 				ctx := context.WithValue(r.Context(), "login", "true")
-				fmt.Println(ctx)
 				rn = r.WithContext(ctx)
 				r = rn
 			}
@@ -121,18 +114,17 @@ func LoginCheck(next http.Handler) http.Handler {
 //of login database call and handler's session database call.
 func Login(email, password string) bool {
 
-	fmt.Println("Login procedure")
 	user := model.User{}
-	fmt.Println(email)
 
 	Database.Where("Email = ?", email).First(&user)
-	fmt.Println("Okay")
 
 	if user.ID == 0 {
+		fmt.Printf("	Login Status: 0")
 		return false
 	}
 
 	if user.Email == email && user.Password == password {
+		fmt.Printf("	Login Status: 1 with Email: %s\n", email)
 		return true
 	}
 
