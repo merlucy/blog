@@ -93,6 +93,35 @@ func paragraph(c string) (sum, par string) {
 	return s[0], strings.Join(s, "")
 }
 
+func EditPostHandler(w http.ResponseWriter, r *http.Request) {
+
+	id, _ := Id(r.URL.Path)
+
+	db := model.DB
+
+	post := model.Post{}
+
+	r.ParseForm()
+
+	if r.FormValue("title") == "" || r.FormValue("content") == "" {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	db.Where("id = ?", id).Find(&post)
+
+	summary, value := paragraph(r.FormValue("content"))
+
+	post.Title = r.FormValue("title")
+	post.Body = template.HTML(value)
+	post.Summary = template.HTML(summary)
+
+	db.Save(&post)
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+
+}
+
 //Need to handle for db sessions
 func DeletePostHandler(w http.ResponseWriter, r *http.Request) {
 

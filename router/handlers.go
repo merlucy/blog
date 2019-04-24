@@ -63,11 +63,28 @@ func EditPageHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Template parse fail")
 	}
 
+	post.Body = RemoveTags(post.Body)
+
 	var p Post
 
 	p = PostConvert(&post)
 
 	t.Execute(w, p)
+
+}
+
+func RemoveTags(c template.HTML) template.HTML {
+
+	s := string(c)
+
+	fmt.Println(s)
+
+	s = strings.Replace(s, "<div class=\"pg\">", "\n", -1)
+	s = strings.Replace(s, "</div>", "", -1)
+
+	fmt.Println(s)
+
+	return template.HTML(s)
 
 }
 

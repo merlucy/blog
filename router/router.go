@@ -30,6 +30,7 @@ var Routes = map[Route]http.HandlerFunc{
 	Route{"UploadNote", "/uplnote"}:         UploadNoteHandler,
 	Route{"DeletePost", "/delete/post/"}:    DeletePostHandler,
 	Route{"EditPageHandler", "/edit/post/"}: EditPageHandler,
+	Route{"EditPostHandler", "/editpost/"}:  EditPostHandler,
 }
 
 func InitRouter() *http.ServeMux {
