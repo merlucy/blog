@@ -33,12 +33,11 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	value := r.FormValue("content")
-	summary, paragraph := paragraph(value)
+	summary, value := paragraph(r.FormValue("content"))
 
 	post := model.Post{
 		Title:   r.FormValue("title"),
-		Body:    template.HTML(paragraph),
+		Body:    template.HTML(value),
 		Summary: template.HTML(summary),
 	}
 
@@ -48,7 +47,29 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//summary function strips the first paragraph of the post.
+func summary(c string) string {
+
+	s := strings.Split(c, "\n")
+
+	for i := 0; i < len(s); i++ {
+
+		if s[i] == "" {
+			continue
+		} else {
+			return s[i]
+		}
+	}
+
+	fmt.Println("		Uploaded post has no content")
+
+	return s[0]
+
+}
+
 func paragraph(c string) (sum, par string) {
+
+	s := strings.Split(strings.Replace(c, "\r\n", "\n", -1), "\n")
 
 	fmt.Printf("Content: %s", c)
 
@@ -56,10 +77,6 @@ func paragraph(c string) (sum, par string) {
 	p = "<div class=\"pg\">"
 	pc = "</div>"
 	strs := []string{p, "", pc}
-
-	s := strings.Split(c, "\n")
-
-	fmt.Printf("Split Text: %s", s)
 
 	for i, t := range s {
 		if i%2 == 1 {
@@ -76,29 +93,6 @@ func paragraph(c string) (sum, par string) {
 	return s[0], strings.Join(s, "")
 }
 
-/*
-func EditPageHandler(w http.ResponseWriter, r *http.Request) {
-
-	id, _ := Id(r.URL.Path)
-	db := Db(r)
-
-	post := model.Post{}
-
-	db.First(&post, id)
-
-	t, err := Parse("Edit.html", header)
-	if err != nil {
-		fmt.Println("Template parse fail")
-	}
-
-	var p model.Post
-
-	p = post
-
-	t.Execute(w, p)
-
-}
-*/
 //Need to handle for db sessions
 func DeletePostHandler(w http.ResponseWriter, r *http.Request) {
 

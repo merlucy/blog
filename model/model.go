@@ -2,9 +2,10 @@ package model
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
 	"html/template"
 	"log"
+
+	"github.com/jinzhu/gorm"
 )
 
 var DB *gorm.DB
