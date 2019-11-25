@@ -77,12 +77,15 @@ func Clean(r *http.Request) (rn *http.Request) {
 	return rn
 }
 
+//LoginCheck checks if the http request is sent by a verified login user by checking the cookies.
 func LoginCheck(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
+		//Fetches the email and password information from the Cookie.
 		c1, err1 := r.Cookie("Email")
 		c2, err2 := r.Cookie("Password")
+
 		var e, p string
 		var login bool
 
@@ -91,11 +94,18 @@ func LoginCheck(next http.Handler) http.Handler {
 			var rn *http.Request
 			e = c1.Value
 			p = c2.Value
+
+			//Verifying the credentials through database inquiry within Login() method.
 			login = Login(e, p)
 
 			if login {
+				//Creates a new context with additional "login" value.
 				ctx := context.WithValue(r.Context(), "login", "true")
+
+				//Request.WithContext() returns the address to the new context.
 				rn = r.WithContext(ctx)
+
+				//Copying the new context to the current request.
 				r = rn
 			}
 

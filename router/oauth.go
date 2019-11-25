@@ -1,6 +1,7 @@
 package router
 
 import (
+	"blog/middleware"
 	"blog/model"
 	"encoding/json"
 	"fmt"
@@ -72,7 +73,10 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//Creates visitor instance in the database.
 	v := addVisitor(r, response)
+
+	//Concatenates visitor log in info to the Cookie
 	addVisitorCookie(w, r, v)
 
 	log.Printf("parseResponseBody: %s\n", string(response))
@@ -80,6 +84,9 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
+//addVisitor unmarshals the response received from Google and creates new visitor
+//instance in the database.
+//
 //Need to add logic for adding duplicate visitors
 func addVisitor(r *http.Request, rsp []byte) model.Visitor {
 
@@ -95,21 +102,46 @@ func addVisitor(r *http.Request, rsp []byte) model.Visitor {
 
 	fmt.Println(info)
 
-	v := model.Visitor{
-		Name:    info["name"].(string),
-		Email:   info["email"].(string),
-		Picture: info["picture"].(string),
+	v := model.Visitor{}
+
+	if result, data := findDuplicateVisitor(info["email"].(string)); result == 1 {
+
+		v = data
+	} else {
+		v = model.Visitor{
+			Name:    info["name"].(string),
+			Email:   info["email"].(string),
+			Picture: info["picture"].(string),
+		}
+
+		db := Db(r)
+		defer db.Commit()
+
+		db.Create(&v)
+		fmt.Printf("%v created", v)
 	}
-
-	db := Db(r)
-	defer db.Commit()
-
-	db.Create(&v)
-	fmt.Printf("%v created", v)
 
 	return v
 }
 
+func findDuplicateVisitor(email string) (int, model.Visitor) {
+
+	db := middleware.Database
+
+	v := model.Visitor{}
+	db.Where("Email = ?", email).First(&v)
+
+	if v.ID != 0 {
+		fmt.Println("Visitor is already registered in the database")
+		return 1, model.Visitor{}
+	}
+
+	return 0, model.Visitor{}
+}
+
+//addVisitor Cookie appends visitor information to the Cookie for further interaction
+//through Cookie during other requests.
+//
 //Need to add visitor logout function
 func addVisitorCookie(w http.ResponseWriter, r *http.Request, v model.Visitor) {
 

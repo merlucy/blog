@@ -88,14 +88,23 @@ func RemoveTags(c template.HTML) template.HTML {
 
 }
 
+//IndexHandler renders the index page which lists five latest blog posts.
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
+	//Create a database session
 	db := Db(r)
 	defer db.Commit()
+
+	//Create an empty model.Post slice
 	post := []model.Post{}
+
+	//Gorm SQL command to fetch five latest posts from the database
 	db.Order("created_at desc").Limit(5).Find(&post)
 
+	//Concatenate the index.html file with header.html file
 	t, err := Parse(index, header)
+
+	//If template parsing fails, print an error message and abort the request
 	if err != nil {
 		fmt.Println("Template parse fail")
 	}
@@ -103,6 +112,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	var pd PostData
 	var pdd Post
 
+	//Convert model.Post slice into router.Post slice using router.PostConvert
 	for i := 0; i < len(post); i++ {
 
 		pdd = PostConvert(&post[i])
@@ -110,6 +120,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	//Service the final index page
 	t.Execute(w, pd)
 }
 
@@ -264,13 +275,3 @@ func ProjectConvert(project *model.Project) (p Project) {
 func ParamSame(subject, compare string) bool {
 	return len(strings.Split(subject, "/")) == len(strings.Split(compare, "/"))
 }
-
-//Router needs
-/*
-* main page -> / -> show list of blog posts
-* blogs -> blogs
-* Intro -> introduction
-* projects -> projects
-* visitor page -> visiting
-* Portfolio -> portfolio
- */
