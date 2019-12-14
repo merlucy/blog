@@ -12,7 +12,7 @@ func Populate(db *gorm.DB) {
 	Posts(db)
 	Projects(db)
 	Notes(db)
-
+	Tags(db)
 }
 
 func Users(db *gorm.DB) {
@@ -32,7 +32,7 @@ func Posts(db *gorm.DB) {
 
 	fmt.Println("SETTING POSTS")
 	examples := []Post{
-		Post{Title: "LOL", Body: "LOLBA", UserID: 1},
+		Post{Title: "LOL", Body: "LOLBA", Summary: "Hi", Tag: Tag{TagID: 1, Name: "First Tag"}, UserID: 1},
 		Post{Title: "LUL", Body: "LULBA", UserID: 2},
 		Post{Title: "LIL", Body: "LILBA", UserID: 3},
 	}
@@ -56,15 +56,28 @@ func Projects(db *gorm.DB) {
 	}
 }
 
-func Notes(db *gorm.DB) {
-	fmt.Println("SETTING NOTES")
-	/*examples := []Note{
-		Note{Body: "LOLBA", UserID: 1},
-		Note{Body: "LULBA", UserID: 2},
-		Note{Body: "LILBA", UserID: 3},
+func Tags(db *gorm.DB) {
+	fmt.Println("SETTING TAGS")
+	examples := []Tag{
+		Tag{Name: "First Tag"},
+		Tag{Name: "Second Tag"},
+		Tag{Name: "Third Tag"},
 	}
 
 	for _, u := range examples {
 		db.Create(&u)
-	}*/
+	}
+}
+
+func Notes(db *gorm.DB) {
+	fmt.Println("SETTING NOTES")
+	examples := []Note{
+		Note{Body: "LOLBA", VisitorID: 1},
+		Note{Body: "LULBA", VisitorID: 2},
+		Note{Body: "LILBA", VisitorID: 3},
+	}
+
+	for _, u := range examples {
+		db.Create(&u)
+	}
 }

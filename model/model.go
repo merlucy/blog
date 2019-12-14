@@ -19,6 +19,7 @@ func init() {
 	}
 
 	DB = temp.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8 auto_increment=1")
+
 	SetTables()
 	fmt.Println("DONE SETTING TABLES")
 	SetRelationship()
@@ -30,7 +31,7 @@ func init() {
 	DB.AutoMigrate(&Note{})
 
 	//Populate Tables
-	//opulate(DB)
+	Populate(DB)
 }
 
 type User struct {
@@ -54,8 +55,14 @@ type Post struct {
 	Title   string
 	Body    template.HTML `sql:"type:longtext"`
 	Summary template.HTML `sql:"type:longtext:`
-	User    User          //`gorm:"foreignkey:UserID"`
+	User    User          `gorm:"foreignkey:ID"`
+	Tag     Tag           `gorm:"foreignkey:TagID"`
 	UserID  uint
+}
+
+type Tag struct {
+	TagID uint
+	Name  string
 }
 
 type Project struct {
@@ -80,7 +87,7 @@ func SetTables() {
 	DB.CreateTable(&Post{})
 	DB.CreateTable(&Project{})
 	DB.CreateTable(&Note{})
-
+	DB.CreateTable(&Tag{})
 }
 
 //Set Relationships

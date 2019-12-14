@@ -1,6 +1,7 @@
 package router
 
 import (
+	"blog/middleware"
 	"blog/model"
 	"fmt"
 	"html/template"
@@ -23,7 +24,67 @@ const (
 	signinPage  = "templates/signin.html"
 	uploadPage  = "templates/upload.html"
 	editPage    = "templates/edit.html"
+	tagPage     = "templates/tags.html"
 )
+
+type Tag struct {
+	ID   uint
+	Name string
+}
+
+func TagHandler(w http.ResponseWriter, r *http.Request) {
+
+	//Create a database session
+	db := middleware.Database
+
+	//Concatenate the index.html file with header.html file
+	t, err := Parse(tagPage, header)
+
+	//If template parsing fails, print an error message and abort the request
+	if err != nil {
+		fmt.Println("Template parse fail")
+	}
+
+	//Create an empty model.Post slice
+	fmt.Println("Creating Tag")
+	tag := []model.Tag{}
+	fmt.Println("Creating Post")
+	//post := []model.Post{}
+
+	db.First(&tag)
+	fmt.Println("Fetching post")
+	//Gorm SQL command to fetch five latest posts from the database
+	//db.Model(&tag).Related(&post, "Post")
+	fmt.Println("Finding Tags %s", tag)
+
+	var td TagData
+	var tdd Tag
+
+	//Convert model.Post slice into router.Post slice using router.PostConvert
+	for i := 0; i < len(tag); i++ {
+
+		tdd = TagConvert(&tag[i])
+		td.Tags = append(td.Tags, tdd)
+
+	}
+
+	//Service the final index page
+	t.Execute(w, td)
+}
+
+func TagConvert(tag *model.Tag) (t Tag) {
+
+	t = Tag{
+		Name: tag.Name,
+		ID:   tag.TagID,
+	}
+
+	return t
+}
+
+type TagData struct {
+	Tags []Tag
+}
 
 type PostData struct {
 	Posts []Post
