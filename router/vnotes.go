@@ -168,7 +168,6 @@ func UploadNoteHandler(w http.ResponseWriter, r *http.Request) {
 
 	note := model.Note{
 		Body:      template.HTML(s),
-		Visitor:   v,
 		VisitorID: v.ID,
 	}
 

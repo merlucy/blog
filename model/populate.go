@@ -32,9 +32,11 @@ func Posts(db *gorm.DB) {
 
 	fmt.Println("SETTING POSTS")
 	examples := []Post{
-		Post{Title: "LOL", Body: "LOLBA", Summary: "Hi", Tag: Tag{TagID: 1, Name: "First Tag"}, UserID: 1},
-		Post{Title: "LUL", Body: "LULBA", UserID: 2},
-		Post{Title: "LIL", Body: "LILBA", UserID: 3},
+		Post{Title: "LOL", Body: "LOLBA", Summary: "Hi", Tags: []Tag{Tag{Name: "First Tag"}, Tag{Name: "Second Tag"}}, UserID: 1},
+
+		Post{Title: "LOL", Body: "LILBA", Summary: "Hi", Tags: []Tag{Tag{Name: "Second Tag"}, Tag{Name: "Third Tag"}}, UserID: 1},
+
+		Post{Title: "LOL", Body: "LULBA", Summary: "Hi", Tags: []Tag{Tag{Name: "Third Tag"}, Tag{Name: "Fourth Tag"}}, UserID: 1},
 	}
 
 	for _, u := range examples {
@@ -59,9 +61,7 @@ func Projects(db *gorm.DB) {
 func Tags(db *gorm.DB) {
 	fmt.Println("SETTING TAGS")
 	examples := []Tag{
-		Tag{Name: "First Tag"},
-		Tag{Name: "Second Tag"},
-		Tag{Name: "Third Tag"},
+		Tag{Name: "Fifth Tag"},
 	}
 
 	for _, u := range examples {

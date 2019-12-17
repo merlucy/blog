@@ -48,14 +48,14 @@ func TagHandler(w http.ResponseWriter, r *http.Request) {
 	//Create an empty model.Post slice
 	fmt.Println("Creating Tag")
 	tag := []model.Tag{}
-	fmt.Println("Creating Post")
-	//post := []model.Post{}
+	post := []model.Post{}
+	db.First(&post)
+	fmt.Println("First Tag is ", tag)
 
-	db.First(&tag)
-	fmt.Println("Fetching post")
-	//Gorm SQL command to fetch five latest posts from the database
-	//db.Model(&tag).Related(&post, "Post")
-	fmt.Println("Finding Tags %s", tag)
+	//Searches for tags based on given post
+	db.Model(&post).Related(&tag, "Tags")
+
+	fmt.Println(tag)
 
 	var td TagData
 	var tdd Tag
@@ -76,7 +76,7 @@ func TagConvert(tag *model.Tag) (t Tag) {
 
 	t = Tag{
 		Name: tag.Name,
-		ID:   tag.TagID,
+		ID:   tag.ID,
 	}
 
 	return t
@@ -217,6 +217,17 @@ func BlogPageHandler(w http.ResponseWriter, r *http.Request) {
 	db := Db(r)
 	defer db.Commit()
 	db.First(&post, id)
+
+	user := model.User{}
+
+	//Find user who wrote this post
+	db.Model(&post).Related(&user)
+
+	fmt.Println("Found user:", user)
+
+	db.Model(&user).Related(&post)
+
+	fmt.Println("Found post written by user:", post)
 
 	t, err := Parse(blogPage, header)
 	if err != nil {

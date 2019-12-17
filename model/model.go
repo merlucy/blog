@@ -22,7 +22,7 @@ func init() {
 
 	SetTables()
 	fmt.Println("DONE SETTING TABLES")
-	SetRelationship()
+	//SetRelationship()
 	fmt.Println("DONE SETTING RELATIONSHIPS")
 	DB.AutoMigrate(&User{})
 	DB.AutoMigrate(&Post{})
@@ -34,53 +34,76 @@ func init() {
 	Populate(DB)
 }
 
+//User struct which dictates what possessions users can have
 type User struct {
 	ID       uint `gorm:"primary_key"`
 	Password string
 	Name     string
 	Email    string
+
+	//User can have many posts
+	Posts []Post `gorm:"foreignkey:UserID"`
+
+	//User can have many projects
+	Projects []Project `gorm:"foreignkey:UserID"`
 }
 
+//Visitor struct is created when a visitor logs in to the website using oauth
 type Visitor struct {
 	ID      uint `gorm:"primary_key`
 	Name    string
 	Email   string
 	Picture string
 	Link    string
+
+	//Visitor can have many notes
+	Notes []Note `gorm:"foreignkey:VisitorID"`
 }
 
-//Blog post
+//Post struct is an object for blog post
 type Post struct {
 	gorm.Model
 	Title   string
 	Body    template.HTML `sql:"type:longtext"`
 	Summary template.HTML `sql:"type:longtext:`
-	User    User          `gorm:"foreignkey:ID"`
-	Tag     Tag           `gorm:"foreignkey:TagID"`
-	UserID  uint
+
+	//A blog post can have many tags
+	Tags []Tag `gorm:"many2many:post_tags;"`
+
+	//UserID as foreign key of the author
+	UserID uint
 }
 
+//Tag struct is used to classify blog posts
 type Tag struct {
-	TagID uint
-	Name  string
+	gorm.Model
+	Name string
+
+	//A tag can have many posts
+	Posts []Post `gorm:"many2many:post_tags;"`
 }
 
+//Project struct contains information of user's project
 type Project struct {
 	gorm.Model
 	Title   string
 	Body    template.HTML `sql:"type:longtext"`
 	Summary template.HTML
-	User    User
-	UserID  uint
+
+	//UserID as foreign key for the project owner
+	UserID uint
 }
 
+//Note struct contains the contents of visiting notes by visitors
 type Note struct {
 	gorm.Model
-	Body      template.HTML
-	Visitor   Visitor
+	Body template.HTML
+
+	//VisitorID as foreign key for the author
 	VisitorID uint
 }
 
+//SetTables function creates all the tables for the database
 func SetTables() {
 
 	DB.CreateTable(&User{})
@@ -90,6 +113,7 @@ func SetTables() {
 	DB.CreateTable(&Tag{})
 }
 
+/*
 //Set Relationships
 func SetRelationship() {
 
@@ -99,8 +123,7 @@ func SetRelationship() {
 	var note Note
 	var visitor Visitor
 
-	DB.Model(&user).Related(&post)
-	DB.Model(&user).Related(&project)
-	DB.Model(&visitor).Related(&note)
-
-}
+		DB.Model(&user).Related(&post)
+		DB.Model(&user).Related(&project)
+		DB.Model(&visitor).Related(&note)
+}*/
