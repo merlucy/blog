@@ -8,11 +8,19 @@
         <div class="form-group">
           <label for="date">Created Date</label>
           <input type="text" name="date" class="form-control" id="date" placeholder="Date">
-		</div>
-		<div class="form-group">
- 		   <label for="content">Content</label>
-  		   <textarea class="form-control" name="content" id="content" rows="20"></textarea>
-  		</div>
+	</div>
+	<div class="form-group">
+	   <label for="content">Content</label>
+	   <textarea class="form-control" name="content" id="content" rows="20"></textarea>
+	</div>
+	{{ range $i, $v := .Tags}}
+	<div class="form-group">
+	<div class="form-check">
+		<input type="checkbox" class="form-check-input" name="check{{$i}}" value="check{{$i}}">
+		<label class="form-check-label" for="check{{$i}}">{{.Name}}</label>
+	</div>
+	</div>
+	{{end}}
 
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

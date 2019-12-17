@@ -14,11 +14,29 @@ func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
+	db := Db(r)
+	defer db.Commit()
+
+	tags := []model.Tag{}
+
+	db.Find(&tags)
+
+	var td TagData
+	var tdd Tag
+
+	for i := 0; i < len(tags); i++ {
+		fmt.Println("Looping through for loop:", i)
+		tdd = TagConvert(&tags[i])
+		td.Tags = append(td.Tags, tdd)
+
+	}
+
 	t, err := Parse(uploadPage, header)
 	if err != nil {
 		fmt.Println("Template parse fail")
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
-	t.Execute(w, nil)
+	t.Execute(w, td)
 }
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -34,6 +52,8 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	summary, value := paragraph(r.FormValue("content"))
+
+	fmt.Println("Form Value is ", r.FormValue("check2"))
 
 	post := model.Post{
 		Title:   r.FormValue("title"),

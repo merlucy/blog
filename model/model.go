@@ -31,7 +31,7 @@ func init() {
 	DB.AutoMigrate(&Note{})
 
 	//Populate Tables
-	Populate(DB)
+	//Populate(DB)
 }
 
 //User struct which dictates what possessions users can have
