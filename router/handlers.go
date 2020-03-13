@@ -14,7 +14,7 @@ import (
 const (
 	header      = "templates/header.html"
 	index       = "templates/index.html"
-	postList    = "templates/index.html"
+	postList    = "templates/bloglist.html"
 	blogPage    = "templates/post.html"
 	projectList = "templates/projectList.html"
 	projectPage = "templates/project.html"
@@ -73,7 +73,6 @@ func TagHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TagConvert(tag *model.Tag) (t Tag) {
-
 	t = Tag{
 		Name: tag.Name,
 		ID:   tag.ID,
@@ -82,12 +81,17 @@ func TagConvert(tag *model.Tag) (t Tag) {
 	return t
 }
 
+type LoginInfo struct {
+	Login bool
+}
+
 type TagData struct {
 	Tags []Tag
 }
 
 type PostData struct {
 	Posts []Post
+	Login bool
 }
 
 type Post struct {
@@ -127,7 +131,6 @@ func EditPageHandler(w http.ResponseWriter, r *http.Request) {
 	post.Body = RemoveTags(post.Body)
 
 	var p Post
-
 	p = PostConvert(&post)
 
 	t.Execute(w, p)
@@ -175,10 +178,8 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Convert model.Post slice into router.Post slice using router.PostConvert
 	for i := 0; i < len(post); i++ {
-
 		pdd = PostConvert(&post[i])
 		pd.Posts = append(pd.Posts, pdd)
-
 	}
 
 	//Service the final index page
@@ -201,10 +202,12 @@ func BlogListHandler(w http.ResponseWriter, r *http.Request) {
 	var pdd Post
 
 	for i := 0; i < len(post); i++ {
-
 		pdd = PostConvert(&post[i])
 		pd.Posts = append(pd.Posts, pdd)
+	}
 
+	if r.Context().Value("login") != nil {
+		pd.Login = true
 	}
 
 	t.Execute(w, pd)

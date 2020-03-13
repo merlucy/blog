@@ -40,7 +40,8 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Decode complete")
 
-	if r.FormValue("name") == "" || r.FormValue("email") == "" || r.FormValue("password") != r.FormValue("passwordcheck") {
+	if r.FormValue("name") == "" || r.FormValue("email") == "" ||
+		r.FormValue("password") != r.FormValue("passwordcheck") {
 		http.Redirect(w, r, "/signup", http.StatusSeeOther)
 	}
 
@@ -79,17 +80,14 @@ func SigninHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user := model.User{}
-
 	db.Where("email = ?", email).First(&user)
 
 	if user.ID == 0 {
 		http.Redirect(w, r, "/signin", http.StatusSeeOther)
 	}
-
 	fmt.Print(user)
 
 	if user.Email == email && user.Password == password {
-
 		c1 := http.Cookie{
 			Name:     "Email",
 			Value:    user.Email,
@@ -104,7 +102,6 @@ func SigninHandler(w http.ResponseWriter, r *http.Request) {
 
 		http.SetCookie(w, &c1)
 		http.SetCookie(w, &c2)
-
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
