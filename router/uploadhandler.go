@@ -113,6 +113,22 @@ func paragraph(c string) (sum, par string) {
 	return s[0], strings.Join(s, "")
 }
 
+//RemoveTags removes HTML tags in order to smooth the blog post body for user modification
+//when the EditPost handler is called
+func RemoveTags(c template.HTML) template.HTML {
+
+	s := string(c)
+
+	fmt.Println(s)
+
+	s = strings.Replace(s, "<div class=\"pg\">", "\n", -1)
+	s = strings.Replace(s, "</div>", "", -1)
+
+	fmt.Println(s)
+
+	return template.HTML(s)
+}
+
 func EditPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	id, _ := Id(r.URL.Path)

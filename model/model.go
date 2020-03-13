@@ -11,19 +11,16 @@ import (
 var DB *gorm.DB
 
 func init() {
-
+	//Initializes database connection through gorm
 	temp, err := gorm.Open("mysql", "root:Gostanford1!@/test?charset=utf8&parseTime=True&loc=Local")
-
 	if err != nil {
 		log.Fatal()
 	}
 
 	DB = temp.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8 auto_increment=1")
 
+	//Sets database tables during initation
 	SetTables()
-	fmt.Println("DONE SETTING TABLES")
-	//SetRelationship()
-	fmt.Println("DONE SETTING RELATIONSHIPS")
 	DB.AutoMigrate(&User{})
 	DB.AutoMigrate(&Post{})
 	DB.AutoMigrate(&Project{})
@@ -104,6 +101,7 @@ type Note struct {
 	VisitorID uint
 }
 
+//Category struct defines the categories of blog posts
 type Category struct {
 	gorm.Model
 	Name string
@@ -117,19 +115,7 @@ func SetTables() {
 	DB.CreateTable(&Project{})
 	DB.CreateTable(&Note{})
 	DB.CreateTable(&Tag{})
+	DB.CreateTable(&Category{})
+
+	fmt.Println("DONE SETTING TABLES")
 }
-
-/*
-//Set Relationships
-func SetRelationship() {
-
-	var user User
-	var post Post
-	var project Project
-	var note Note
-	var visitor Visitor
-
-		DB.Model(&user).Related(&post)
-		DB.Model(&user).Related(&project)
-		DB.Model(&visitor).Related(&note)
-}*/

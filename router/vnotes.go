@@ -86,7 +86,6 @@ func NotesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	t.Execute(w, nd)
-
 }
 
 func NoteConvert(note *model.Note) (n Note) {
@@ -114,9 +113,7 @@ func Visitor(r *http.Request) model.Visitor {
 	}
 
 	e := c.Value
-
 	db := middleware.Database
-
 	v := model.Visitor{}
 	db.Where("Email = ?", e).First(&v)
 
@@ -131,7 +128,6 @@ func Visitor(r *http.Request) model.Visitor {
 func VisitorByID(id int) model.Visitor {
 
 	db := middleware.Database
-
 	v := model.Visitor{}
 	db.Where("ID = ?", id).First(&v)
 
@@ -141,7 +137,6 @@ func VisitorByID(id int) model.Visitor {
 	}
 
 	return v
-
 }
 
 func UploadNoteHandler(w http.ResponseWriter, r *http.Request) {
@@ -172,7 +167,5 @@ func UploadNoteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db.Create(&note)
-
 	http.Redirect(w, r, "/visiting", http.StatusSeeOther)
-
 }

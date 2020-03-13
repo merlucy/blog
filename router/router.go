@@ -16,7 +16,6 @@ var Routes = map[Route]http.HandlerFunc{
 	Route{"ProjectList", "/projects"}:            ProjectListHandler,
 	Route{"ProjectPage", "/projects/"}:           ProjectPageHandler,
 	Route{"VisitingNotes", "/visiting"}:          NotesHandler,
-	Route{"Portfolio", "/portfolio"}:             PortfolioHandler,
 	Route{"Profile", "/profile"}:                 ProfileHandler,
 	Route{"SigninPage", "/signin"}:               SigninPageHandler,
 	Route{"SignupPage", "/signup"}:               SignupPageHandler,

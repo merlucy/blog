@@ -6,8 +6,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+//Function to populate the database when the database is empty
 func Populate(db *gorm.DB) {
-
 	Users(db)
 	Posts(db)
 	Projects(db)
@@ -16,6 +16,7 @@ func Populate(db *gorm.DB) {
 	Categories(db)
 }
 
+//Populating users table with sample users
 func Users(db *gorm.DB) {
 	fmt.Println("SETTING USERS")
 	examples := []User{
@@ -29,6 +30,7 @@ func Users(db *gorm.DB) {
 	}
 }
 
+//Populating posts table with sample posts
 func Posts(db *gorm.DB) {
 
 	fmt.Println("SETTING POSTS")
@@ -45,6 +47,7 @@ func Posts(db *gorm.DB) {
 	}
 }
 
+//Populating projects table with sample projects
 func Projects(db *gorm.DB) {
 
 	fmt.Println("SETTING PROJECTS")
@@ -59,6 +62,7 @@ func Projects(db *gorm.DB) {
 	}
 }
 
+//Populating tags table with sample tags
 func Tags(db *gorm.DB) {
 	fmt.Println("SETTING TAGS")
 	examples := []Tag{
@@ -70,6 +74,7 @@ func Tags(db *gorm.DB) {
 	}
 }
 
+//Populating notes table with sample notes
 func Notes(db *gorm.DB) {
 	fmt.Println("SETTING NOTES")
 	examples := []Note{
@@ -83,6 +88,7 @@ func Notes(db *gorm.DB) {
 	}
 }
 
+//Populating categories table with sample categories
 func Categories(db *gorm.DB) {
 	fmt.Println("SETTING CATEGORIES")
 	examples := []Category{
