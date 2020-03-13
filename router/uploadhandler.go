@@ -113,12 +113,30 @@ func paragraph(c string) (sum, par string) {
 	return s[0], strings.Join(s, "")
 }
 
+func EditPageHandler(w http.ResponseWriter, r *http.Request) {
+
+	id, _ := Id(r.URL.Path)
+	db := Db(r)
+
+	post := model.Post{}
+	db.First(&post, id)
+
+	t, err := Parse(editPage, header)
+	if err != nil {
+		fmt.Println("Template parse fail")
+	}
+
+	post.Body = RemoveTags(post.Body)
+	var p Post
+	p = PostConvert(&post)
+
+	t.Execute(w, p)
+}
+
 func EditPostHandler(w http.ResponseWriter, r *http.Request) {
 
 	id, _ := Id(r.URL.Path)
-
 	db := model.DB
-
 	post := model.Post{}
 
 	r.ParseForm()
@@ -129,7 +147,6 @@ func EditPostHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db.Where("id = ?", id).Find(&post)
-
 	summary, value := paragraph(r.FormValue("content"))
 
 	post.Title = r.FormValue("title")

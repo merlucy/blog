@@ -1,7 +1,7 @@
 package router
 
 import (
-	"blog/middleware"
+	//	"blog/middleware"
 	"blog/model"
 	"fmt"
 	"html/template"
@@ -24,69 +24,10 @@ const (
 	signinPage  = "templates/signin.html"
 	uploadPage  = "templates/upload.html"
 	editPage    = "templates/edit.html"
-	tagPage     = "templates/tags.html"
 )
-
-type Tag struct {
-	ID   uint
-	Name string
-}
-
-func TagHandler(w http.ResponseWriter, r *http.Request) {
-
-	//Create a database session
-	db := middleware.Database
-
-	//Concatenate the index.html file with header.html file
-	t, err := Parse(tagPage, header)
-
-	//If template parsing fails, print an error message and abort the request
-	if err != nil {
-		fmt.Println("Template parse fail")
-	}
-
-	//Create an empty model.Post slice
-	fmt.Println("Creating Tag")
-	tag := []model.Tag{}
-	post := []model.Post{}
-	db.First(&post)
-	fmt.Println("First Tag is ", tag)
-
-	//Searches for tags based on given post
-	db.Model(&post).Related(&tag, "Tags")
-
-	fmt.Println(tag)
-
-	var td TagData
-	var tdd Tag
-
-	//Convert model.Post slice into router.Post slice using router.PostConvert
-	for i := 0; i < len(tag); i++ {
-
-		tdd = TagConvert(&tag[i])
-		td.Tags = append(td.Tags, tdd)
-
-	}
-
-	//Service the final index page
-	t.Execute(w, td)
-}
-
-func TagConvert(tag *model.Tag) (t Tag) {
-	t = Tag{
-		Name: tag.Name,
-		ID:   tag.ID,
-	}
-
-	return t
-}
 
 type LoginInfo struct {
 	Login bool
-}
-
-type TagData struct {
-	Tags []Tag
 }
 
 type PostData struct {
@@ -104,6 +45,7 @@ type Post struct {
 
 type ProjectData struct {
 	Projects []Project
+	Login    bool
 }
 
 type Project struct {
@@ -112,29 +54,6 @@ type Project struct {
 	Summary   template.HTML
 	ID        uint
 	CreatedAt string
-}
-
-func EditPageHandler(w http.ResponseWriter, r *http.Request) {
-
-	id, _ := Id(r.URL.Path)
-	db := Db(r)
-
-	post := model.Post{}
-
-	db.First(&post, id)
-
-	t, err := Parse(editPage, header)
-	if err != nil {
-		fmt.Println("Template parse fail")
-	}
-
-	post.Body = RemoveTags(post.Body)
-
-	var p Post
-	p = PostConvert(&post)
-
-	t.Execute(w, p)
-
 }
 
 func RemoveTags(c template.HTML) template.HTML {
@@ -149,7 +68,6 @@ func RemoveTags(c template.HTML) template.HTML {
 	fmt.Println(s)
 
 	return template.HTML(s)
-
 }
 
 //IndexHandler renders the index page which lists five latest blog posts.
@@ -266,8 +184,11 @@ func ProjectListHandler(w http.ResponseWriter, r *http.Request) {
 		pd.Projects = append(pd.Projects, pdd)
 	}
 
-	t.Execute(w, pd)
+	if r.Context().Value("login") != nil {
+		pd.Login = true
+	}
 
+	t.Execute(w, pd)
 }
 
 func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -287,9 +208,6 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	pdd = ProjectConvert(&project)
 	t.Execute(w, pdd)
-
-	fmt.Printf("		Show Project with ID: %d\n", pdd.ID)
-
 }
 
 func PortfolioHandler(w http.ResponseWriter, r *http.Request) {
@@ -307,28 +225,25 @@ func Parse(url ...string) (t *template.Template, err error) {
 }
 
 func Id(url string) (string, int) {
-
 	params := strings.Split(url, "/")
 
 	return params[len(params)-1], len(params)
-
 }
 
 //Returns the attached database session of the request.
 func Db(r *http.Request) *gorm.DB {
-
 	db := r.Context().Value("db")
+
 	return db.(*gorm.DB)
 }
 
 func PostConvert(post *model.Post) (p Post) {
 
 	p = Post{
-		Title:   post.Title,
-		Body:    post.Body,
-		Summary: post.Summary,
-		ID:      post.ID,
-
+		Title:     post.Title,
+		Body:      post.Body,
+		Summary:   post.Summary,
+		ID:        post.ID,
 		CreatedAt: post.CreatedAt.Format("02 Jan 2006"),
 	}
 

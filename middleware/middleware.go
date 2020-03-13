@@ -15,7 +15,6 @@ type Middleware func(http.Handler) http.Handler
 var Database *gorm.DB
 
 var middlewares = []Middleware{
-
 	Logger,
 	LoginCheck,
 }
@@ -25,7 +24,6 @@ func InitiateMiddleware(db *gorm.DB, mux http.Handler) http.Handler {
 	Database = db
 
 	return Middlewares(db)(Logger(LoginCheck(mux)))
-
 }
 
 //Middlewares function returns a http.Handler that attaches the database session to the request.
@@ -50,7 +48,6 @@ func Middlewares(db *gorm.DB) Middleware {
 			next.ServeHTTP(w, rn)
 		})
 	}
-
 }
 
 //DBSession function returns a database session. Specifically, gorm.DB session.
@@ -62,11 +59,11 @@ func DBSession(db *gorm.DB) *gorm.DB {
 //Simple logging middleware to keep track of requests made to the server.
 func Logger(next http.Handler) http.Handler {
 
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("METHOD:%-5sURL:%s\n", r.Method, r.URL.Path)
-		next.ServeHTTP(w, r)
-	})
-
+	return http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			fmt.Printf("METHOD:%-5sURL:%s\n", r.Method, r.URL.Path)
+			next.ServeHTTP(w, r)
+		})
 }
 
 //Clean function cleans the URL path of the request using path.Clean.
@@ -90,7 +87,6 @@ func LoginCheck(next http.Handler) http.Handler {
 		var login bool
 
 		if err1 == nil && err2 == nil {
-
 			var rn *http.Request
 			e = c1.Value
 			p = c2.Value
@@ -108,12 +104,9 @@ func LoginCheck(next http.Handler) http.Handler {
 				//Copying the new context to the current request.
 				r = rn
 			}
-
 		}
-
 		next.ServeHTTP(w, r)
 	})
-
 }
 
 //Login function identifies the email and password with reference to the database.
@@ -125,11 +118,10 @@ func LoginCheck(next http.Handler) http.Handler {
 func Login(email, password string) bool {
 
 	user := model.User{}
-
 	Database.Where("Email = ?", email).First(&user)
 
 	if user.ID == 0 {
-		fmt.Printf("	Login Status: 0")
+		fmt.Printf("	Login Status: 0\n")
 		return false
 	}
 

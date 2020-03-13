@@ -1,2 +1,2 @@
 # blog
-Source codes for the blog made from scratch by Yong Jin Lee
+Source codes of the blog created by Yong Jin Lee

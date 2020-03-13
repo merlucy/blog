@@ -1,0 +1,25 @@
+{{template "header.html"}}
+    <div class="container">
+      <form action="/cedit" method="post">
+	{{ range .Categories }}
+	<div class="form-group">
+	<div class="form-check">
+		<input type="checkbox" class="form-check-input" name="name" value="{{.Name}}">
+		<label class="form-check-label" for="{{.Name}}">{{.Name}}</label>
+	</div>
+	</div>
+	{{end}}
+	<button type="submit" class="btn btn-primary">Submit</button>
+
+      </form>
+    </div>
+    <footer class="row">
+      <p class="creator">Created by<a href="https://www.fb.com/brianlee0829">@YongJinLee</a>.</p>
+      <p class="check">
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
+  </div>
+
+
+</body>

@@ -29,6 +29,7 @@ func init() {
 	DB.AutoMigrate(&Project{})
 	DB.AutoMigrate(&Visitor{})
 	DB.AutoMigrate(&Note{})
+	DB.AutoMigrate(&Category{})
 
 	//Populate Tables
 	//Populate(DB)
@@ -101,6 +102,11 @@ type Note struct {
 
 	//VisitorID as foreign key for the author
 	VisitorID uint
+}
+
+type Category struct {
+	gorm.Model
+	Name string
 }
 
 //SetTables function creates all the tables for the database

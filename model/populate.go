@@ -13,6 +13,7 @@ func Populate(db *gorm.DB) {
 	Projects(db)
 	Notes(db)
 	Tags(db)
+	Categories(db)
 }
 
 func Users(db *gorm.DB) {
@@ -77,6 +78,18 @@ func Notes(db *gorm.DB) {
 		Note{Body: "LILBA", VisitorID: 3},
 	}
 
+	for _, u := range examples {
+		db.Create(&u)
+	}
+}
+
+func Categories(db *gorm.DB) {
+	fmt.Println("SETTING CATEGORIES")
+	examples := []Category{
+		Category{Name: "Quant Trading"},
+		Category{Name: "Tech"},
+		Category{Name: "Value Investment"},
+	}
 	for _, u := range examples {
 		db.Create(&u)
 	}
